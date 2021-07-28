@@ -1,0 +1,55 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+<div class="container">
+	<h2>Edit Profile</h2>
+	<br><hr><br>
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="row">
+			<div class="col-xs-6">
+				<label>Name:</label>
+				{{u_form.as_p}}
+			</div>
+			<div class="col-xs-6">
+				<span id="preview_text" style="visibility: hidden;">
+					<font color="red">Preview only.</font><br>
+					Click the "<a href="#update">Update</a>" button to save all settings</span><br>
+				
+				<div class="profile_image" style="background-image: url('{{profile.image.url}}');" id="profile_image_preview">
+					&nbsp;
+				</div>
+				
+				<a onclick="id_image.click()" href="#">Change Profile Picture</a>
+				<p class="review_num_text"><i>Squre sized image recommended. Image will be automatically resized to 500px.</i></p>
+				
+				<br> <br>
+				
+				{{p_form.as_p}}
+			</div>
+		</div>
+
+		<div class="row text-center">
+			<a name="update"></a>
+			<br><br>
+			<button type="submit" class="btn_black btn_big">Update</button>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+	id_image.addEventListener("change", function(){
+		if (id_image.files && id_image.files[0]) {
+			var reader = new FileReader();
+
+			reader.onload = function (e) {
+				profile_image_preview.style.backgroundImage = "url("+e.target.result+")";
+			}
+
+			reader.readAsDataURL(id_image.files[0]);
+
+			preview_text.style.visibility='';
+		}
+	});
+</script>
+{% endblock content %}

@@ -1,0 +1,157 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>{{ page_title }} - Doctor's Hub</title>
+
+	<link rel="icon" href=" {% static 'main/favicon.png' %} ">
+
+	<!-- Config for Bootstrap -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Offline (online ones removed) -->
+	<link rel="stylesheet" href=" {% static 'main/plugins/bootstrap.min.css' %} ">
+  	  	
+
+  	<!-- Linking our CSS file -->
+  	<link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
+  	
+  	<!-- for icon fonts -->
+  	<!-- Offline (online ones removed) -->
+  	<link rel="stylesheet" href=" {% static 'main/plugins/FontAwesome/css/all.css' %} "> 
+  	<!-- 
+  		Full icon ref list :
+  		- https://fontawesome.com/icons?d=gallery <- best
+
+  		- https://www.w3schools.com/icons/icons_reference.asp 
+  		- https://www.w3schools.com/icons/fontawesome_icons_webapp.asp
+  	-->
+</head>
+
+<body onresize="drawFooter()">
+
+	{% if do_not_draw_header %}
+	<!-- Pass; do not draw the header -->
+	{% else %}
+	<!-- header start -->
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" style="width: 48px;" data-target="#myNavbar">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span> 
+					</button>
+				{% if user.is_authenticated %} <!-- when user is Logged In -->
+					<a class="navbar-brand" href="{% url 'user-home' %}">
+				{% else %}
+					<a class="navbar-brand" href="{% url 'search' %}">
+				{% endif %}
+						<img src="{% static 'main/logo.png' %}" style="float: left; margin-right: 5px;" height="100%">
+						Find a Doctor Near Me
+					</a>
+				</div>
+				<div class="collapse navbar-collapse" id="myNavbar">
+					<ul class="nav navbar-nav navbar-center">
+						<li><a href="{% url 'doctors' %}">Doctors</a></li>
+						<li><a href="{% url 'hospitals' %}">Hospitals</a></li>
+						<!-- <li><a href="#">Diseases</a></li> -->
+						<li><a href="{% url 'blog' %}">Blog</a></li>
+
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="{% url 'search' %}"> <i class="fas fa-search"></i> </a></li>
+				{% if user.is_authenticated %} <!-- when user is Logged In -->
+						<li><a href="{% url 'profile' %}">{{user.username|title}}</a></li>
+						<li id="notification_li">
+							<a href="{% url 'notifications' %}" title="Notifications">
+								<i class="fas fa-bell"></i>
+								<b class="new_notification donot_display" id="new_notification_bubble">•</b>
+							</a>
+						</li>
+						<li><a href="/settings" title="Settings"><i class="fas fa-cog"></i></a></li>
+						<li><a href="{% url 'logout' %}" title="Sign Out"><i class="fas fa-sign-out-alt"></i></a></li>
+				{% else %} <!-- when user is NOT logged in  -->
+						<li><a href="{% url 'login' %}">Log In</a></li>
+						<li><a href="{% url 'register' %}" class="nav_signup">Sign Up</a></li>
+					</ul>
+				{% endif %}
+				</div>
+			</div>
+		</nav>
+	<!-- header end -->
+		<br><br><br>
+	{% endif %}
+
+	<br>
+	<div class="container">
+		{% if messages %}
+			{% for msg in messages %}
+				<div class="alert alert-{{msg.tags}}">
+					{{msg}}
+				</div>
+			{% endfor %}
+		{% endif %}
+	</div>
+
+	<br>
+
+	<!-- page's main content start -->
+	{% block content %}
+	{% endblock %}
+	<!-- page's main content END -->
+
+	
+
+	<br><br><br>
+</body>
+
+
+
+<footer>
+	<nav class="navbar-default">
+		<div class="container">
+			<ul class="nav navbar-nav navbar-left">
+				<li><a href="#">About Us</a></li>
+				<li><a href="#">Contact Us</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#">Help</a></li>
+				<li><a href="#">Privacy</a></li>
+				<li><a href="#">Terms</a></li>
+			</ul>
+		</div>
+	</nav>
+
+<!-- Bootstrap related scripts -->
+<script src="{% static 'main/plugins/jquery.min.js' %} "></script>
+<script src="{% static 'main/plugins/bootstrap.min.js' %} "></script>
+
+<!-- Our JavaScript files -->
+<script type="text/javascript" src="{% static 'main/style.js' %} "></script>
+<script type="text/javascript" src="{% static 'main/script.js' %} "></script>
+
+<script type="text/javascript">
+	{% if user.is_authenticated %}
+		check_for_notification();
+	{% endif %}
+
+
+	function check_for_notification(){
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				if (this.responseText == 'y')
+					new_notification_bubble.classList.remove("donot_display");
+			}
+		};
+		xhttp.open("GET", "/check_for_notification/", true);
+		xhttp.send();
+	}
+</script>
+
+</footer>
+
+</html>

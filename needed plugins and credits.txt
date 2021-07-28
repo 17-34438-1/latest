@@ -1,0 +1,6 @@
+Installed Plugins:
+	- pillow
+	- django-cleanup
+	- django-extensions
+	- graphviz
+	- geopy

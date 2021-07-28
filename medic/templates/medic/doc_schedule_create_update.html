@@ -1,0 +1,149 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<style type="text/css">
+	label { width: 100px; }
+
+	[type=radio] { 
+	  position: absolute;
+	  opacity: 0;
+	  width: 0;
+	  height: 0;
+	}
+
+	/* IMAGE STYLES */
+	[type=radio] + img {
+	  cursor: pointer;
+	  border-radius: 100%;
+	  /*opacity: 0.5;*/
+	}
+
+	/* CHECKED STYLES */
+	[type=radio]:checked + img {
+	  border: 4px solid #27ae60;
+	  opacity: 0.5;
+	}
+
+	.hospital_label {
+		width: 256px;
+		padding: 7px;
+		margin: 5px;
+	}
+
+	.ticked {
+		/*color: #27ae60;*/
+		color: black;
+	    width: 64px;
+	    text-align: center;
+	    vertical-align: middle;
+	    display: table-cell;
+	    position: relative;
+	    top: 45px;
+	}
+</style>
+<div class="container">
+{% if error %}
+	<a href="/">Go to Home</a>
+{% else %}
+	<form method="POST">
+		{% csrf_token %}
+
+		{% if update %}
+		<h3>Editing Schedule <a href="{% url 'get-appointment' %}?schedule={{id}}" target="_blank">#{{id}}</a></h3>
+		<!-- <h4><a href="{% url 'get-appointment' %}?schedule={{id}}" target="_blank">View this Schedule</a></h4> -->
+		<br><br>
+		<label>Chember:</label> 
+			<a href="/hospital/{{chember.id}}" target="_blank">
+				<img width="64" class="cover_photo" 
+					style=" background-image: url('{{chember.image.url}}');
+							width: 32px; 
+							height: 32px;"></a>
+			<a href="/hospital/{{chember.id}}" target="_blank">
+				{{chember.name}}
+			</a>
+			<p class="review_num_text">(Chember can not be changed after the schedule is created.
+							<br>To change the chember info, please contact an administrator.)
+			</p>
+		<br>
+		<br>
+		{% else %}
+		<h3>Creating New Schedule</h3>
+		<br><br>
+		<label>*Hospital:</label>
+		<br>
+		{% for hospital in hospitals %}
+		<label class="hospital_label">
+		  <div class="ticked">
+		  	<i class="fas fa-check"></i>
+		  </div>
+		  <input type="radio" name="hospital" value="{{hospital.id}}" checked>
+		  <img class="cover_photo" style="background-image: url('{{hospital.image.url}}'); width: 64px; height: 64px;">
+		  <span style="cursor: pointer;">{{hospital.name}}</span>
+		</label>
+		{% endfor %}
+		<br><br>
+
+		{% endif %}
+
+		{{form.as_p}}
+
+
+		<br>
+		<p class="review_num_text">*Chember can not be changed after the schedule is created.</p>
+
+		<br>
+
+		<p id="msg" style="color: red;"></p>
+
+		<button>Save</button>
+	</form>
+{% endif %}
+</div>
+
+
+<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function(event){
+		//only applicable for the update page , not when creating a new schedule
+		if ( {% if update %} false {% else %} true {% endif %} )
+			return;
+
+		//first grabbing the inital values to compare for changes
+		initial_start_date_day = id_start_date_day.value;
+		initial_start_date_month = id_start_date_month.value;
+		initial_start_date_year = id_start_date_year.value;
+		initial_start_time = id_start_time.value;
+
+
+		//check if anything has changed 
+		function has_changed(){
+			if (
+				initial_start_date_day != id_start_date_day.value ||
+				initial_start_date_month != id_start_date_month.value ||
+				initial_start_date_year != id_start_date_year.value ||
+				initial_start_time != id_start_time.value
+			)
+				msg.innerHTML = "Schedule Time has been changed.<br>Users that have booked an appointment, will get a notification about this reschedule.";
+			else
+				msg.innerHTML = "";
+		}
+
+		// check if start date or start time has changed
+		id_start_time.addEventListener('change', function(event){
+			has_changed();
+		})
+
+		id_start_date_day.addEventListener('change', function(event){
+			has_changed();
+		})
+
+		id_start_date_month.addEventListener('change', function(event){
+			has_changed();
+		})
+
+		id_start_date_year.addEventListener('change', function(event){
+			has_changed();
+		})
+	})
+</script>
+{% endblock %}

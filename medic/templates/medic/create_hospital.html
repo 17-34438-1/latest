@@ -1,0 +1,64 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container">
+	{% if error is None or error == True %}
+		&nbsp; <!-- nothing -->
+	{% else %}
+		{% if update %}
+		<h2>Update Hospital</h2>
+		<span class="review_num_text">To add Hospital Manager, please go to <a href="/hospital_manager/?hospital={{object.id}}">this page</a></span>
+		<br><br>
+		{% else %}
+		<h2>Create Hospital</h2>
+		{% endif %}
+		<a name="image_preview"></a>
+		<span id="preview_text" style="visibility: hidden; color: red;">Note: This is a preview only. Image has not been saved yet.</span>
+		<div class="cover_photo" id="profile_image_preview" style="background-image: url('{{hospital_image}}');">
+			&nbsp;
+		</div>
+		<br><br>
+		<form method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			<p>{{form.as_p}}</p>
+
+			<div class="text-center">
+				<br><br>
+				{% if update %}
+				<button class="btn_green btn_big">Update Hospital</button>
+				{% else %}
+				<button class="btn_green btn_big">Create Hospital</button>
+				{% endif %}
+			</div>
+		</form>
+	{% endif %}
+</div>
+
+<script type="text/javascript">
+	{% if not update %}
+	profile_image_preview.style.display = 'none';
+	{% endif %}
+
+	id_image.addEventListener("change", function(){
+		if (id_image.files && id_image.files[0]) {
+			var reader = new FileReader();
+
+			reader.onload = function (e) {
+				profile_image_preview.style.backgroundImage = "url("+e.target.result+")";
+			}
+
+			reader.readAsDataURL(id_image.files[0]);
+
+			preview_text.style.visibility='';
+			profile_image_preview.style.display = '';
+
+			// scroll to top
+			document.body.scrollTop = 0; // For Safari
+  			document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+
+  			// fixing the footer not on bottom issue
+  			drawFooter();
+		}
+	});
+</script>
+{% endblock content %}

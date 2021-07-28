@@ -1,0 +1,77 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container">
+	<h3>Hospitals I manage</h3>
+	<p class="review_num_text">Here's a list of hospitals you manage. You can change the information settings of these hospitals, add managers, add other doctors and so on. </p>
+	<br>
+	{% if num_of_hospitals == 0 %}
+		<i class="review_num_text">You are not the manager of any hospital.
+		<a href="{% url 'create_hospital' %}">Create One</a></i>
+	{% else %}
+	{% for hospital in my_hospitals %}
+	<br>
+	<div class="cover_photo" style="background-image: url('{{hospital.image.url}}');">
+		<div class="cover_text">
+		  <div style="position: absolute; bottom: 0px; width: 100%;">
+			<div class="row">
+				<div class="col-xs-8 col-lg-9">
+				  <a href="/hospital/{{ hospital.id }}" target="_blank" style="font-size: 2em; color: white;">{{hospital.name}}</a> &emsp; <a href="/update_hospital/{{ hospital.id }}" style="color: white;"><i class="fas fa-edit edit_pencil" title="Edit Hospital" alt="Edit Hospital"></i></a> <br>
+				  {{hospital.address}}, {{hospital.city}} <br>
+				  {{hospital.district}}
+				</div>
+				<div class="col-xs-4 col-lg-3 text-center">
+				  <a href="{% url 'hospital_manager' %}?hospital={{hospital.id}}"><button class="btn_small btn_green">Managers</button></a>
+				  <br>
+				  <a href="{% url 'hospital_doctors' %}?hospital={{hospital.id}}"><button class="btn_small btn_green">Doctors</button></a>
+				</div>
+			</div>
+		  </div>
+		</div>
+	</div>
+
+	<br>
+	{% endfor %}
+	<table>
+		<tr>
+			<td class="text-center"><a href="{% url 'create_hospital' %}">Create Another</a></td>
+		</tr>
+	</table>
+	{% endif %}
+
+
+	<br><hr><br>
+
+	<h3>Hospitals I'm in</h3>
+	<p class="review_num_text">This a list of hospitals where you can be found. For example where you have chembers, where you so patients etc.</p>
+
+	<br>
+
+	<div class="row" style="flex-wrap: wrap;">
+		{% for hospital in user.doctorprofile.hospital_set.all %}
+		<div class="col-xs-4">
+			<div class="square_segment">
+				<div class="cover_photo" style="background-image: url('{{hospital.image.url}}'); width: calc(100% + 30px); margin: 0px -15px; height: 150px;">&nbsp;</div>
+				<h5 class="title"><a href="/hospital/{{ hospital.id }}" target="_blank">{{hospital.name}}</a></h5>
+				<a href="{% url 'remove_hospital' %}?hospital={{hospital.id}}">Remove</a>
+				<br><br>
+			</div>
+		</div>
+		{% endfor %}
+
+		<div class="col-xs-4">
+			<div class="square_segment" style="background-color: transparent; ">
+				<div class="cover_photo vertical_center text-center" style="height: 150px;">
+					<br>
+					<a href="{% url 'add_hospital' %}" title="Add another">
+						<i class="fas fa-plus-circle" style="font-size: 3em; margin-left: 150%;"></i>
+					</a>
+				</div>
+				<h5 class="title">&nbsp;</h5>
+				<br><br>
+			</div>
+		</div>
+	</div>
+</div>
+<br><br>
+{% endblock %}

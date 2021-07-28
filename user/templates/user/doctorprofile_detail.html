@@ -1,0 +1,137 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+	<br>
+	<div class="container">
+		{% if object.apprived == False %}
+			<div class="alert alert-warning" role="alert">
+				This Doctor Profile has NOT been approved yet. <br>
+				No appointment can be made at this moment.
+			</div>
+			<br>
+		{% endif %}
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+				<br>
+				<div class="profile_image" style="background-image: url('{{ object.image.url }}');">&nbsp;</div>
+			</div>
+			<div class="col-lg-8 col-md-7 col-sm-6 col-xs-6">
+				<h2>{{object.user.first_name}} {{object.user.last_name}}</h2>
+				{{ object.field }}<br><br>
+				<rating>{{object.review_rating}}</rating>
+				<br><span class="review_num_text">(Total {{ object.total_review }}
+					{% if object.total_review < 2 %}
+					Review)
+					{% else %}
+					Reviews)
+					{% endif %}
+				</span>
+			</div>
+			<div class="col-lg-2 col-md-3 col-sm-3 col-xs-3">
+				<br><br><br>
+				{% if object.user.id == user.id %}
+					<a href="{% url 'edit-profile' %}"><button class="btn_small btn_green">Edit Profile</button></a>
+					<a href="{% url 'schedule' %}?doc={{object.id}}"><button class="btn_small btn_green">View/Edit Schedule</button></a>
+				{% elif user.user_type == 'DA' and user.docasstprofile.doctor == object %}
+					<a href="#"><button class="btn_small btn_green">Edit Doctor Info</button></a>
+					<a href="{% url 'schedule' %}?doc={{object.id}}"><button class="btn_small btn_green">View/Edit Schedule</button></a>
+				{% elif object.apprived %}
+					<a href="{% url 'schedule' %}?doc={{object.id}}"><button class="btn_small btn_green">GET APPOINTMENT</button></a>
+				{% endif %}
+				
+				{% if user.user_type == 'DA' %}
+					{% if not user.docasstprofile.doctor %}
+					<a href="{% url 'join_doctor' %}?doc={{object.id}}"><button class="btn_small btn_green">Request to Join as Assistant</button></a>
+					{% endif %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<br>
+		<h3>Doctor Bio:</h3> 
+		<p> {{object.bio_desc}} </p>
+		<br>
+		{% if object.specialist %}
+			<h5><i class="fa fa-check text_green" aria-hidden="true"></i> Specialist</h5>
+		{% endif %}
+
+		<div class="row">
+			<br><br>
+			<div class="col-xs-2">Fee:</div>
+			<div class="col-xs-10">{{object.approx_fee_range_low}}-{{object.approx_fee_range_high}} Tk</div>
+		</div>
+
+		<div class="row">
+			<br><br>
+			<div class="col-xs-2">Education:</div>
+			<div class="col-xs-10">{{object.education}}</div>
+		</div>
+
+		<div class="row">
+			<br>
+			<div class="col-xs-2">Experience:</div>
+			<div class="col-xs-10">{{object.exp_years}} year(s)</div>
+		</div>
+
+		<div class="row">
+			<br><br>
+			<div class="col-xs-2">Main Chember: <br> <span class="review_num_text">(Total Chember(s):</span></div>
+			<div class="col-xs-10">{{object.main_chember}} <br> <span class="review_num_text">{{object.total_num_of_chember}} )</span></div>
+			<!-- will be updated here, when chember is another model -->
+		</div>
+
+		<div>
+			<p> <br>
+				<a data-toggle="collapse" href="#chember_info" role="button" aria-expanded="false" aria-controls="collapseExample" onclick="setTimeout( drawFooter , 500);">
+					More Chember Information
+				</a>
+				<div class="collapse" id="chember_info">
+					<div class="card card-body">
+						<div class="row">
+						{% for hospital in hospitals %}
+							<div class="col-md-6" style="margin-bottom: 25px;">
+								<div class="cover_photo" style="background-image: url('{{hospital.image.url}}');">
+									<div class="cover_text">
+									  <div style="position: absolute; bottom: 0px; width: 100%;">
+										<div class="row">
+											<div class="col-xs-12">
+											  <a href="/hospital/{{ hospital.id }}" target="_blank" style="font-size: 2em; color: white;">{{hospital.name}}</a> <br>
+											  {{hospital.address}}, {{hospital.city}} <br>
+											  {{hospital.district}}
+											</div>
+										</div>
+									  </div>
+									</div>
+								</div>
+							</div>
+						{% empty %}
+						<span>This doctor has not added any hospital information yet.</span>
+						{% endfor %}
+						</div>	
+					</div>
+				</div>
+			</p>
+		</div>
+
+		<div>
+			<br><br>
+			<p><a href="/blog/?author={{object.id}}">See Recent Blog Posts</a></p>
+			<!-- <p><a href="#">See Reviews</a></p> -->
+		</div>
+
+		<div style="text-align: center;">
+			<br><br>
+			{% if object.apprived and object.user.id != user.id %}
+			<a href="{% url 'schedule' %}?doc={{object.id}}"><button class="btn_green btn_big">See Schedule to Get Appointment</button></a>
+			{% endif %}
+		</div>
+
+	</div>
+
+<BR><BR><BR>
+<BR><BR><BR>
+<BR><BR><BR>
+
+{% endblock content %}

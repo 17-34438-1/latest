@@ -1,0 +1,68 @@
+ADMIN LOGIN:
+	user: admin
+	pass: admin
+
+
+
+DOCTOR LOGINS:
+	u: harun
+	p: 123456
+
+	u: kanak
+	p: 789456
+
+	u: hasibur
+	p: 147258
+
+	u: anowara
+	p: 369258
+
+	u: hiron
+	p: 159357
+
+
+
+
+
+
+
+
+TEST ACCOUNTS:
+	u:batman
+	p:IamBatman123
+
+	u:admin
+	p:admin
+
+
+	Test
+	TestDjango123
+
+	Test2
+	TestDjango123
+
+
+	Hulk
+	iSmash247
+
+
+	Alfred
+	Batman123
+
+	Strange
+	DocStrange123
+
+	NotApprovedDoc
+	Random123
+
+
+	testAssistant
+	TestDjango123
+
+
+	dr.dre
+	aftermath123
+
+
+	testDoc
+	TestDoc123

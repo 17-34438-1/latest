@@ -1,0 +1,120 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container">
+	<center>
+		<h1>Full Appointment List</h1>
+		<br>
+		<hr width="70%">
+	</center>
+
+	<br><br>
+
+	<h2>Awaiting Confirmation</h2>
+	<table border="0">
+		<tr>
+			<th class="td_id">#</th>
+			<th width="150">Date</th>
+			<th width="115">Time</th>
+			<th>Info</th>
+			<th width="160">Ref. By</th>
+		</tr>
+
+		{% for appointment in awaiting_confirmation_list %}
+			<tr>
+				<td class="td_id">{{appointment.id}}</td>
+				<td>{{appointment.schedule.start_date|date:"D, d M y"}}</td>
+				<td><span>{{appointment.schedule.start_time|date:"h:i A"}}</span></td>
+				<td>{{appointment.issue_title}} - <span class="review_num_text">{{appointment.patient.fullname}}</span></td>
+				<td>{{appointment.ref_by}}</td>
+			</tr>
+		{% empty %}
+			<tr>
+				<td colspan="5" class="text-center"><span class="review_num_text">This list is empty</span></td>
+			</tr>
+		{% endfor %}
+	</table>
+
+	<br>
+	<br>
+
+	<h2>Approved Appoints</h2>
+	<table border="0">
+		<tr>
+			<th class="td_id">#</th>
+			<th width="150">Date</th>
+			<th width="115">Time</th>
+			<th>Info</th>
+			<th width="160">Ref. By</th>
+		</tr>
+
+		{% for appointment in awaiting_payment_list %}
+			<tr>
+				<td class="td_id">{{appointment.id}}</td>
+				<td>{{appointment.schedule.start_date|date:"D, d M y"}}</td>
+				<td><span>{{appointment.schedule.start_time|date:"h:i A"}}</span></td>
+				<td>{{appointment.issue_title}} - <span class="review_num_text">{{appointment.patient.fullname}}</span></td>
+				<td>{{appointment.ref_by}}</td>
+			</tr>
+		{% empty %}
+			<tr>
+				<td colspan="5" class="text-center"><span class="review_num_text">This list is empty</span></td>
+			</tr>
+		{% endfor %}
+	</table>
+
+	<br><br>
+
+	<h2>Confirmed Appoints</h2>
+	<table border="0">
+		<tr>
+			<th class="td_id">#</th>
+			<th width="150">Date</th>
+			<th width="115">Time</th>
+			<th>Info</th>
+			<th width="160">Ref. By</th>
+		</tr>
+
+		{% for appointment in confirmed_list %}
+			<tr>
+				<td class="td_id">{{appointment.id}}</td>
+				<td>{{appointment.schedule.start_date|date:"D, d M y"}}</td>
+				<td><span>{{appointment.schedule.start_time|date:"h:i A"}}</span></td>
+				<td>{{appointment.issue_title}} - <span class="review_num_text">{{appointment.patient.fullname}}</span></td>
+				<td>{{appointment.ref_by.user.fullname}}</td>
+			</tr>
+		{% empty %}
+			<tr>
+				<td colspan="5" class="text-center"><span class="review_num_text">This list is empty</span></td>
+			</tr>
+		{% endfor %}
+	</table>
+
+	<br><br>
+
+	<h2>Cancelled Appoints</h2>
+	<table border="0">
+		<tr>
+			<th class="td_id">#</th>
+			<th width="150">Date</th>
+			<th width="115">Time</th>
+			<th>Info</th>
+			<th width="160">Ref. By</th>
+		</tr>
+
+		{% for appointment in cancelled_list %}
+			<tr>
+				<td class="td_id">{{appointment.id}}</td>
+				<td>{{appointment.schedule.start_date|date:"D, d M y"}}</td>
+				<td><span>{{appointment.schedule.start_time|date:"h:i A"}}</span></td>
+				<td>{{appointment.issue_title}} - <span class="review_num_text">{{appointment.patient.fullname}}</span></td>
+				<td>{{appointment.ref_by}}</td>
+			</tr>
+		{% empty %}
+			<tr>
+				<td colspan="5" class="text-center"><span class="review_num_text">This list is empty</span></td>
+			</tr>
+		{% endfor %}
+	</table>
+</div>
+{% endblock content %}

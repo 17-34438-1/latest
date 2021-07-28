@@ -1,0 +1,27 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container-fluid body_50">
+	<h1>Create New Account</h1>
+	<a href="{% url 'login' %}">Or Sign in with existing account</a>
+	<br>
+
+	<br><br><br>
+	<div class="container-fluid body_50_inside">
+	<form method="POST">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button type="submit" class="btn_black btn_big">SIGN UP</button>
+		<br><span>By signing up, you agree to the <a href="#">Terms and Conditions</a></span> 
+		<br><br><br>
+		Or <a href="{% url 'login' %}">Login with an existing account</a>
+	</form>
+</div>
+</div>
+
+<br><br><br>
+
+
+
+
+{% endblock content %}

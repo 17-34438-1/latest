@@ -1,0 +1,26 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container">
+	<h2 class="text-center"><u>Hospitals</u><br><br></h2>
+	<div class="row">
+	{% for hospital in object_list %}
+		<div class="col-md-6" style="margin-bottom: 25px;">
+			<div class="cover_photo" style="background-image: url('{{hospital.image.url}}');">
+				<div class="cover_text">
+				  <div style="position: absolute; bottom: 0px; width: 100%;">
+					<div class="row">
+						<div class="col-xs-12">
+						  <a href="/hospital/{{ hospital.id }}" target="_blank" style="font-size: 2em; color: white;">{{hospital.name}}</a> <br>
+						  {{hospital.address}}, {{hospital.city}} <br>
+						  {{hospital.district}}
+						</div>
+					</div>
+				  </div>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+	</div>	
+</div>
+{% endblock %}

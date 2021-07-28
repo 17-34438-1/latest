@@ -1,0 +1,126 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container">
+{% if my %}
+	<h2>Appointment Details</h2><br>
+	<div class="row">
+		<div class="col-xs-3"><p>ID</p></div>
+		<div class="col-xs-9">
+			<p>#{{object.id}}</p>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-3"><p>Status</p></div>
+		<div class="col-xs-9">
+			<p style="color: {{appointment_status_color}}">{{appointment_status_text}}</p>
+			{% if i_gotta_pay and appointment_status_text == 'Waiting for Payment' %}
+			<a href="#pay"> ( Pay ) </a>
+			{% endif %}
+		</div>
+	</div>
+
+	<br>
+
+	<div class="row">
+		<div class="col-xs-3"><p>Date</p></div>
+		<div class="col-xs-9">
+			<p>{{ object.schedule.start_date|date:'d F, Y' }}</p>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-3"><p>Day</p></div>
+		<div class="col-xs-9">
+			<p>{{ object.schedule.start_date|date:'l' }}</p>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-3"><p>Start Time</p></div>
+		<div class="col-xs-9">
+			<p>{{object.schedule.start_time|date:'h' }}:{{ object.schedule.start_time|date:'i' }} {{ object.schedule.start_time|date:'A' }}
+			({{object.schedule.start_time|date:'H:i'}} hrs)</p>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-3"><p>End Time</p></div>
+		<div class="col-xs-9">
+			<p>{{object.schedule.end_time|date:'h' }}:{{ object.schedule.end_time|date:'i' }} {{ object.schedule.end_time|date:'A' }}
+			({{object.schedule.end_time|date:'H:i'}} hrs)</p>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-3"><p>Fee</p></div>
+		<div class="col-xs-9">
+			<p>{{ object.schedule.fee }} Tk</p>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-3"><p>Chember</p></div>
+		<div class="col-xs-9">
+			<p><a href="/hospital/{{object.schedule.chember.id}}">{{ object.schedule.chember.name }}</a></p>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-3"><p>Location</p></div>
+		<div class="col-xs-9">
+			<p>
+				{{ object.schedule.chember.address }}, {{object.schedule.chember.city}}, {{object.schedule.chember.city}}
+				<br>
+				<!-- <span class="review_num_text">In the future we can have a modal for chember info (with map)</span> -->
+			</p>
+		</div>
+	</div>
+
+	<br>
+
+	<div class="row">
+		<div class="col-xs-3"><p>Issue Title</p></div>
+		<div class="col-xs-9">
+			<p>{{ object.issue_title }}</p>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-3"><p>Issue Description</p></div>
+		<div class="col-xs-9">
+			<p>{{ object.issue_desc }}</p>
+		</div>
+	</div>
+
+	<br>
+	Doctor:
+	<table>
+		<tr>
+			<td width="100" style="background-color: transparent;">
+				<div class="profile_image" style="height: 80px; width: 80px; background-image: url('{{ object.schedule.doctor.image.url }}')">&nbsp;</div>
+			</td>
+			<td style="vertical-align: top; background: transparent;">
+				<h4>
+					<a href="/doctor/{{object.schedule.doctor.id}}" target="_blank">
+						{{ object.schedule.doctor.user.first_name }} {{ object.schedule.doctor.user.last_name }}
+					</a>
+				</h4>
+				{{ object.schedule.doctor.field }}
+			</td>
+		</tr>
+	</table>
+
+	<br><br>
+	{% if i_gotta_pay and appointment_status_text == 'Waiting for Payment' %}
+	<a name="pay"></a>
+	<div class="text-center">
+		<a href="/pay/?appointment={{appointment.id}}"><button class="btn_big btn_green">Pay and Confirm</button></a>
+	</div>
+	{% endif %}
+{% else %}
+<a href="/">Go Home</a>
+{% endif %}
+</div>
+{% endblock content %}

@@ -1,0 +1,83 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container">
+	{% if user.user_type == "D" %}
+		<div class="text-right"><a href="{% url 'my_hospitals' %}">View My Hospitals</a><br><br></div>
+	{% endif %}
+	<div class="row">
+	  <a style="cursor: pointer;" data-toggle="modal" data-target="#myModal">
+		<div class="cover_photo" style="background-image: url('{{object.image.url}}');">&nbsp;</div>
+	  </a>
+	</div>
+
+	<div id="myModal" class="modal fade">
+	  <br>
+	  <div class="text-center">
+	  	<img class="modal-content" src="{{object.image.url}}">
+	  	<span data-dismiss="modal" class="close close_ext">&times;</span>
+	  </div>
+	  <div id="caption"></div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-6">
+		  <h3>{{object.name}}</h3>
+		  {{ object.address }},
+		  {{ object.city }} <br>
+		  {{ object.district }}
+		</div>
+		<div class="col-xs-6 text-right">
+		  <br>
+		  <a href="tel:{{ object.phone_number }}">
+		  	<button>
+		  	  <i class="fas fa-phone"></i> &nbsp;
+		  	  {{ object.phone_number }}
+		  	</button>
+		  </a>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			<br>
+			<p>{{ object.additional_info }}</p>
+		</div>
+	</div>
+
+	<br><hr><br>
+
+	<h4>Managers:</h3>
+	<br>
+
+	<div class="row text-center">
+		{% for manager in object.managers.all %}
+			<div class="col-xs-3 text-center">
+			  <a href="/doctor/{{manager.id}}">
+				<div class="profile_image" style="background-image: url('{{ manager.image.url }}'); position: relative;left: 25%; color: transparent;"> &nbsp; </div>
+				<h5>{{manager.user.first_name}} {{manager.user.last_name}}</h5>
+			</div>
+		  </a>
+		{% endfor %}
+	</div>
+
+	<!-- map here -->
+
+	<br><hr><br>
+
+	<h4>Doctors:</h3>
+	<br>
+
+	<div class="row text-center">
+		{% for doc in object.doctors.all %}
+			<div class="col-xs-3 col-md-2 text-center">
+			  <a href="/doctor/{{doc.id}}">
+				<div class="profile_image" style="background-image: url('{{ doc.image.url }}'); position: relative;left: 25%;">&nbsp;</div>
+				<h5>{{doc.user.first_name}} {{doc.user.last_name}}</h5>
+		  	  </a>
+			</div>
+		{% endfor %}
+	</div>
+	
+</div>
+
+{% endblock content %}

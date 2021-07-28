@@ -1,0 +1,37 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+	<br>
+	<div class="container-fluid body_50">
+		<h1>Profile</h1>
+		<br><br><br>
+
+		<div class="row">
+			<div class="col-sm-2">
+				<img src="
+				{% if user.user_type == user.USER_TYPE_PATIENT %}
+					{{ user.patientprofile.image.url }}
+				{% elif user.user_type == user.USER_TYPE_DOC %}
+					{{ user.doctorprofile.image.url }}
+				{% else %}
+					{{ user.docasstprofile.image.url }}
+				{% endif %}
+
+				" height="150" width="150" style="border: 1px solid black;">
+			</div>
+			<div class="col-sm-10">
+<pre>
+{{user.username}}
+				
+{{user.first_name}}
+{{user.last_name}}
+
+{{user.email}}
+</pre>
+			</div>
+		</div>
+	</div>
+
+	<br><br><br>
+
+{% endblock content %}

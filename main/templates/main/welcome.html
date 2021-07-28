@@ -1,0 +1,75 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+	<h1>Welcome {{user.first_name}} {{user.last_name}}</h1>
+	<br>
+	<div class="alert alert-success">Account created succesfully. Thank you for registering.</div>
+
+	{% if user.user_type == user_type_doc %}
+	<!-- if doctor -->
+		{% if profile.apprived %}
+		<div class="alert alert-success">Your profile is <b>Approved</b>. Thanks for being with us!</div>
+		{% else %}
+		<div class="alert alert-warning">Your profile is <b>Not Approved</b> yet. Soon an administrator will review your profile and approve. 
+		<br>Make sure to <a href="{% url 'edit-profile' %}">update your profile</a> for faster approval.
+		<br>Thanks for your patience.</div>
+		{% endif %}
+		<table>
+			<tr><td><a href="{% url 'edit-profile' %}">Update Profile</a></td></tr>
+			<tr><td>
+				<a href="{% url 'add_hospital' %}">Add Hospital</a> or
+				<a href="{% url 'create_schedule' %}">Create Schedule</a>
+			</td></tr>
+			<tr><td><a href="{% url 'search-assistant' %}">Add Assistant</a></td></tr>
+			<tr><td><a href="{% url 'user-home' %}">Go to Home</a></td></tr>
+			<tr><td><a href="{% url 'blog' %}">View Blog</a></td></tr>
+		</table>
+
+
+	{% elif user.user_type == user_type_patient %}
+	<!-- if patient -->
+		<div class="alert alert-success">Redirecting to <a href="{% url 'user-home' %}">Home</a> in <span id="countdown_time"></span> second(s)<span id="dots"></span></div>
+		<table>
+			<tr><td><a href="{% url 'user-home' %}">Go to Home</a></td></tr>
+		</table>
+
+	
+	{% elif user.user_type == user_type_docasst %}
+	<!-- if doctor's assistant -->
+		<div class="alert alert-warning">
+			Please <a href="{% url 'doctors' %}">join under a doctor</a> to get started.
+		</div>
+
+
+	{% else %}
+	<!-- otherwise admin -->
+		admin
+	{% endif %}
+
+	
+	{% if user.user_type == user_type_patient %}
+	<!-- auto redirect in 10 seconds -->
+	<script type="text/javascript">
+		document.addEventListener('DOMContentLoaded', function() {
+				countdown_time = document.getElementById('countdown_time');
+				i = 5;
+
+				setInterval(function(){
+					countdown_time.innerHTML = i;
+					document.getElementById('dots').innerHTML += " . ";
+
+					console.log("timeout started " + i)
+					if (i<=0) 
+						window.open("{% url 'user-home' %}","_self")
+					else
+						i--;
+				}, 1*1000)
+		}, false);
+	</script>
+	{% endif %}
+	
+
+</div>
+{% endblock content %}

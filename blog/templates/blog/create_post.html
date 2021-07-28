@@ -1,0 +1,24 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container">
+	{% if error %}
+	<div class="alert alert-danger">{{error_msg}}</div>
+	<a href="{% url 'root' %}">Go to Home</a> 
+	&emsp; | &emsp;
+	<a href="{% url 'blog' %}">Go to Blog home</a>
+	{% else %}
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button type="submit" class="btn_black">Post</button>
+	</form>
+	{% endif %}
+</div>
+
+<br><br><br>
+
+
+
+
+{% endblock content %}

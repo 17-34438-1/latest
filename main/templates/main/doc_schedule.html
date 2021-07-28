@@ -1,0 +1,45 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container">
+	<h3>My Schedule</h3>
+
+	<table border="0">
+		<tr>
+			<th> Date </th>
+			<th> Day </th>
+			<th class="text-center"> Start </th>
+			<th class="text-center"> End </th>
+			<th class="text-center"> Fee </th>
+			<th class="text-center"> Slots(Booked/Total) </th>
+			<th class="text-center" width="180"> Actions </th>
+		</tr>
+		{% if object_list|length == 0 %}
+		<tr>
+			<td colspan="7" class="review_num_text text-center">You have not created any schedule yet</td>
+		</tr>
+		{% endif %}
+		{% for schedule in object_list %}
+		<tr>
+			<td>{{ schedule.start_date|date:'d F, Y' }}</td>
+			<td>{{ schedule.start_date|date:'l' }}</td>
+			<td class="text-center">{{ schedule.start_time|date:'h' }}:{{ schedule.start_time|date:'i' }} {{ schedule.start_time|date:'A' }}</td>
+			<td class="text-center">{{ schedule.end_time|date:'h' }}:{{ schedule.end_time|date:'i' }} {{ schedule.end_time|date:'A' }}</td>
+			<td class="text-center">{{schedule.fee}} </td>
+			<td class="text-center">{{schedule.booked_slot}} / {{schedule.total_available_slot}} &emsp; <i class="fas fa-info-circle" aria-hidden="true"></i></td>
+			<td class="text-center">
+				<a href="{% url 'get-appointment' %}?schedule={{schedule.id}}"><button class="btn_small book_now_small"> View </button></a>
+				<a href="/update_schedule/{{schedule.id}}"><button class="btn_edit btn_small book_now_small" title="Edit"><i class="fas fa-pencil-alt"></i></button></a>
+			</td>
+		</tr>
+		{% endfor %}
+		<tr>
+			<td colspan="7" class="text-center" style="background-color: transparent;">
+				<a href="{% url 'create_schedule' %}">
+					<button class="btn_small btn_green" style="width: 256px;">Create Schedule</button>
+				</a>
+			</td>
+		</tr>
+	</table>
+</div>
+{% endblock %}

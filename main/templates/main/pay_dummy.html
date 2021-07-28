@@ -1,0 +1,63 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container body_50">
+	<div class="row">
+		<div class="col-xs-6"><h3>Confirm Appointment</h3></div>
+		<div class="col-xs-6"><h3>(#{{appointment.id}})</h3></div>
+	</div>
+
+	<hr>
+
+	<div class="row">
+		<div class="col-xs-6">Doctor: </div>
+		<div class="col-xs-6">{{appointment.schedule.doctor.user.fullname}}</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-6">Day: </div>
+		<div class="col-xs-6">{{appointment.schedule.start_date | date:'l, d F y'}}</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-6">Time: </div>
+		<div class="col-xs-6">{{appointment.schedule.start_time | date:'h:i A'}} - {{appointment.schedule.end_time | date:'h:i A'}} ({{appointment.schedule.start_time | date:'H:i'}} - {{appointment.schedule.end_time | date:'H:i'}})</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-6">Hospital: </div>
+		<div class="col-xs-6">{{appointment.schedule.chember.name}}</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-6">Issue: </div>
+		<div class="col-xs-6"><p>{{appointment.issue_title}}</p></div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-6"><h3>Total Fee</h3></div>
+		<div class="col-xs-6"><span style="font-size: 2em; position: relative; top: 10px;">৳ {{appointment.schedule.fee}}</span></div>
+	</div>
+
+	<hr>
+
+	<div class="row">
+		<div class="col-xs-12">
+			<h3>Pay using:</h3>
+
+			<br>
+
+			<div class="text-center">
+			  <form method="POST">
+			  	{% csrf_token %}
+			  	<input type="hidden" name="appointment_id" value={{appointment.id}}>
+				<button class="pay_button btn_big bKash"> <img src="{% static 'main/bkash_icon.png' %}" height="48"> &emsp; Pay using bKash </button>
+				<button class="pay_button btn_big mastercard"> <img src="{% static 'main/mastercard_icon.png' %}" height="48"> &emsp; Pay using MasterCard </button>
+				<button class="pay_button btn_big creditcard"> <img src="{% static 'main/credit_card.svg' %}" height="48"> &emsp; Pay using Credit Card </button>
+
+				<br><br><br>
+
+				* Pay within 48 hours to confirm the appointment
+			  </form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

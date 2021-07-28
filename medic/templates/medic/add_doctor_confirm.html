@@ -1,0 +1,33 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container">
+	<h4>Are you sure you want to add this doctor in your hospital?</h4>
+
+	<br><hr><br>
+
+	<div class="row">
+		<div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+			<br>
+			<div class="profile_image" style="background-image: url('{{ object.image.url }}');">&nbsp;</div>
+		</div>
+		<div class="col-lg-10 col-md-10 col-sm-9 col-xs-9">
+			<h2>{{object.user.first_name}} {{object.user.last_name}}</h2>
+			{{ object.field }}<br><br>
+			<p> {{object.bio_desc}} </p>
+		</div>
+	</div>
+
+	<br><hr><br>
+
+	<div class="text-center">
+		<form method="POST">
+			{% csrf_token %}
+			<input type="hidden" name="doctor"  value="{{ object.id }}">
+			<input type="hidden" name="hospital"  value="{{ hospital.id }}">
+			<button class="btn_green">Yes, I am sure</button>
+		</form>
+		<a href="{% url 'hospital_doctors' %}?hospital={{hospital.id}}"><button>No, Go back</button></a>
+	</div>
+</div>
+{% endblock %}

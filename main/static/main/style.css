@@ -1,0 +1,629 @@
+/*
+Online
+@import url('https://fonts.googleapis.com/css?family=Nunito&display=swap'); /* importing Google Font * /
+*/
+
+* {
+	box-sizing: border-box;
+}
+
+
+@font-face {
+	font-family: 'Nunito';
+	src: url(Fonts/Nunito/Nunito-Regular.ttf);
+}
+
+html { 
+	width: 100%;
+}
+
+body	{
+	font-family: 'Nunito', sans-serif;
+	scroll-behavior: smooth;
+	width: 100%;
+}
+
+.full_width {
+	width: 100%;
+}
+
+.full_width_70 {
+	width: 70%;
+}
+
+.half_width {
+	width: 50%;
+}
+
+.firstName {
+	width: calc(50% - 20px);
+	margin-right: 15px; 
+	float: left;
+}
+
+.lastName {
+	width: calc(50% - 20px);
+	margin-left: 15px; 
+}
+
+.body_95 {
+	width: 95%;
+	max-width: 1500px;
+}
+
+.body_50 {
+	width: 50%;
+	min-width: 500px;
+}
+
+.body_50_inside {
+	width: 50%;
+	min-width: 400px; 
+	text-align: center;
+}
+
+.square_input {
+	height: 32px;
+	width: 48px;
+	text-align: center;
+}
+
+.navbar-nav.navbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translatex(-50%);
+}
+
+.nav_signup	{
+	background-color: #ecf0f1;
+	border-bottom: 1px solid rgba(0,0,0,0);
+}
+
+.navbar-nav li a:hover	{
+	border-bottom: 1px solid #bdc3c7;
+}
+
+p {
+	/*padding: 0px 15px 0px 15px;*/
+	text-align: justify;
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+
+button	{
+	height: 48px;
+	width: 256px;	
+	color: white;
+	border: 0;
+	outline: 0;
+	border-radius: 500px;
+	margin: 5px;
+	transition: 0.15s;
+	background-color: #3e3e3e;
+
+	max-width: 100%;
+}
+
+button:hover{
+	background-color: #4c4c4c;
+}
+
+button:active {
+	background-color: #222222;
+}
+
+button:disabled {
+	background-color: #95a5a6;
+}
+
+.btn_green	{
+	background-color: #27ae60;
+}
+
+.btn_green:hover{
+	background-color: #23a459; 
+}
+
+.btn_green:active {
+	background-color: #339966; 
+}
+
+.btn_red	{
+	background-color: #e74c3c;
+}
+
+.btn_red:hover{
+	background-color: #cc3333;
+}
+
+.btn_red:active {
+	background-color: #d14635;
+}
+
+.btn_small	{
+	height: 32px;
+	width: 150px;
+	font-size: 0.8em;
+}
+.btn_big	{
+	height: 80px;
+	width: 420px;
+	min-width: 350px;
+	font-size: 1.2em;
+}
+
+.pay_button	{
+	height: 80px;
+	width: 90%;
+	min-width: 350px;
+	font-size: 1.2em;
+	border-radius: 5px;
+	margin: 10px;
+}
+
+.bKash {
+	background: #dc006c;
+}
+
+.bKash:hover {
+	background: #c9005f;
+}
+
+.mastercard {
+	background: #f0efeb;
+	color: #333333;
+}
+
+.mastercard:hover {
+	background: #e3e1db;
+	color: #333333;
+}
+
+.creditcard{
+	background: #4cb79f;
+}
+
+.creditcard:hover {
+	background: #43a28c;
+}
+
+
+.btn_fb	{
+	background-color: #3b5999;
+	width: 200px;
+}
+
+.btn_fb:hover{
+	background-color: #336699;
+}
+
+.btn_fb:active{
+	background-color: #34518e;
+}
+
+.btn_google{
+	width: 200px;
+	background-color: #dd4b39; 
+}
+
+.btn_google:hover{
+	background-color: #cc3333;
+}
+
+.btn_google:active {
+	background-color: #d14635;
+}
+
+.book_now_small{
+	margin: 0;
+	width: 75px;
+}
+
+.text_green{
+	color: #27ae60;
+}
+
+input	{
+	outline: 0;	
+	margin-bottom: 30px;
+}
+
+input[type=checkbox] {
+	cursor: pointer;
+}
+
+/*.space_below {
+	margin-bottom: 30px;
+}*/
+
+.input_full	{
+	padding: 20px 30px;
+	border-radius: 500px;
+	border: 2px solid #b0b0b0;
+	font-size: 1.2em;
+}
+
+.input_full:focus	{
+	border-color: #3e3e3e;
+}
+
+.input_bottom_outline	{
+	border: 0;
+	padding: 7px;
+	border-bottom: 2px solid #b0b0b0;
+}
+
+.input_bottom_outline:focus	{
+	border-color: #3e3e3e;
+}
+
+
+.btn_edit	{
+	height: 32px;
+	width: 48px;
+	background-color: #3498db;
+}
+
+.btn_edit:hover {
+	background-color: #2f8cca;
+}
+
+.btn_edit:active {
+	background-color: #2980b9;
+}
+
+.btn_no	{
+	height: 32px;
+	width: 48px;
+	background-color: #e74c3c;
+}
+
+.btn_no:hover{
+	background-color: #cc3333;
+}
+
+.btn_no:active {
+	background-color: #d14635;
+}
+
+.btn_yes	{
+	height: 32px;
+	width: 48px;
+	background-color: #2ecc71;
+}
+
+.xs_button { 
+	margin: -5px 5px;
+}
+
+.rating_1{
+	color: #fbc02d;
+}
+
+.rating_half{
+	background: linear-gradient(90deg, #fbc02d 60%, #bdc3c7 40%);
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -o-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+    -o-text-fill-color: transparent;
+    text-fill-color: transparent;
+    margin: 0;
+}
+
+.rating_0{
+	color: #bdc3c7;
+}
+
+.search_full	{
+	width: calc(100% - 20px);
+	padding-right: 48px;
+	margin: 10px 0px 10px 0px;
+}
+
+.input_search_btn{
+	position: relative;
+	left: -40px;
+	cursor: pointer;
+}
+
+.new_notification{
+	color: #e74c3c;
+	position: relative;
+    top: -8px;
+    left: -8px;
+}
+
+.donot_display	{
+	display: none;
+}
+
+.no_new_notification {
+	margin-right: -11px;
+}
+
+table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0px 7px;
+}
+
+th,td	{
+	padding: 10px 25px 10px 25px;
+	border-radius: 5px;
+}
+
+th {
+	background-color: #f5f7f8;
+}
+
+td {
+	background-color: #fafbfb;
+}
+
+.partition{
+	background-color: #fafbfb;
+	border-radius: 10px;
+	padding: 10px 25px 10px 25px;
+}
+
+.table_title {
+	text-transform: uppercase;
+	font-weight: bold;
+	text-align: center;
+	font-size: 1.1em;
+	background-color: #dee1e3;
+}
+
+footer {
+	position: absolute;
+	width: 100%;
+}
+
+footer .navbar-nav li a:hover	{
+	border-bottom: 0;
+}
+
+.profile_image {
+	border-radius: 100%;
+	margin-right: 10px;
+	height: 128px;
+	width: 128px;
+	max-width: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.cover_photo {
+	width: 100%;
+	height: 350px;
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	position: relative;
+}
+
+.cover_text {
+	background-image: linear-gradient(rgba(0,0,0,0) , black);
+	color: white;
+	padding: 15px;
+	padding-bottom: 0px;
+	padding-left: 30px;
+	position: absolute; 
+	width: 100%;
+	height: 40%;
+	bottom: 0px;
+}
+
+.review_num_text {
+	color: #bdc3c7;
+	font-size: 0.9em;
+}
+
+.small {
+	height : 32px;
+	width: 32px;
+}
+
+.td_id {
+	padding-right: 0px;
+    padding-left: 15px;
+    width: 32px;
+    text-align: center;
+}
+
+textarea {
+	margin: 10px 0px 10px 0px;
+    width: 100%;
+    border-radius: 3px;
+    height: 128px;
+    padding: 10px;
+    resize: vertical;
+    min-height: 64px;
+}
+
+.at_right {
+	text-align: right;
+}
+
+.user_sidebar {
+	    text-align: -webkit-center;
+	    text-align: -moz-center;
+}
+
+.user_sidebar a{
+	text-decoration: none;
+}
+
+.user_sidebar_option {
+	height: 120px;
+	width: 220px;
+	border-radius: 10px;
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+	color: white;
+	margin: 5px;
+	cursor: pointer;
+}
+
+.option_icon {
+	height: 40%;
+    min-height: 48px;
+
+}
+
+.option_title {
+	position: relative;
+    top: 5px;
+    text-transform: uppercase;
+}
+
+.option_orange {
+	background-color: #ff8a65;
+}
+
+.option_lavender {
+	background-color: #7986cb;
+}
+
+.option_skyblue {
+	background-color: #4fc3f7;
+}
+
+.option_green {
+	background-color: #66bb6a;
+}
+
+
+.checkbox_label {
+	cursor: pointer;
+	user-select: none;
+}
+
+.signin label {
+	display: none;
+}
+
+
+select {
+	padding: 5px;
+    border: 0;
+    border-bottom: 1px solid;
+    margin: auto 5px;
+    margin-bottom: 30px;
+}
+
+.errorlist{
+    color: #e74c3c;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.row{
+	margin-bottom: 15px;
+}
+
+.new_asst_activity {
+	color: #e74c3c;
+    position: relative;
+    top: -15px;
+    font-size: 2em;
+}
+
+.less_hight_input_full_width {
+	height: 32px;
+	font-size: 1em;
+	width: 90%;
+}
+
+.close_ext {
+	color: white;
+	font-weight: normal; 
+	text-shadow: none;
+	opacity: 1;
+    position: relative;
+	right: 10px;
+}
+
+.edit_pencil {
+	position: relative;
+    top: -5px;
+    background: #27ae60;
+    padding: 5px;
+    padding-left: 7px;
+    border-radius: 100%;
+}
+
+.square_segment {
+	background-color: #ecf0f1;
+    padding: 0px 15px;
+}
+
+.title{
+	/*margin: 10px;*/
+	font-weight: 200;
+	font-size: 1.25em;
+}
+
+.vertical_center{
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.blog_post_home {
+	background-color: #fafbfb;
+	border-radius: 5px;
+	padding: 20px;
+	margin: 10px;
+}
+
+.blog_home_post_image {
+	height: 200px;
+	width: 200px;
+	background-size: cover;
+}
+
+abbr, abbr[data-original-title], abbr[title] {
+	cursor: default;
+}
+
+#schedule_cal td {
+	background: transparent;
+	text-align: center;
+}
+
+.time_booked {
+	background-color: #72a5c0 !important;
+	color: white;
+}
+
+
+#ajax_loader_image {
+	z-index: 99999;
+    position: fixed;
+    top: 50%;
+    right: 50%;
+}
+
+
+@media screen and (max-width: 800px) {
+	/*.navbar-nav.navbar-center {
+		position: relative;
+		padding-left: 15px;
+	}*/
+
+	.navbar-nav li a:hover	{
+		border: 1px solid #bdc3c7;
+	}
+
+	.vanish_when_small {
+		display: none;
+	}
+}

@@ -1,0 +1,55 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+	<div class="container">
+		{% if doc.apprived == False %}
+			<div class="alert alert-warning" role="alert">
+				This Doctor Profile has NOT been approved yet. <br>
+				No appointment can be made at this moment.
+			</div>
+		{% endif %}
+		<br>
+		
+		{% if error %}
+			<div class="alert alert-{{error.tag}}" role="alert">{{error.message}} </div>
+			<a href="/create_schedule/">Create your schedule</a>
+		{% else %}
+			<h2>Schedule of {{doc.user.first_name}} {{doc.user.last_name}}</h2><br>
+			<table border="0">
+				<tr>
+					<th> Date </th>
+					<th> Day </th>
+					<th class="text-center"> Start </th>
+					<th class="text-center"> End </th>
+					<th class="text-center"> Fee </th>
+					<th class="text-center"> Slots(Booked/Total) </th>
+					<th class="text-center" width="180"> Actions </th>
+				</tr>
+				{% for schedule in object_list %}
+				{% if schedule.slot_available %}
+					<tr>
+						<td>{{ schedule.start_date|date:'d F, Y' }}</td>
+						<td>{{ schedule.start_date|date:'l' }}</td>
+						<td class="text-center">{{ schedule.start_time|date:'h' }}:{{ schedule.start_time|date:'i' }} {{ schedule.start_time|date:'A' }}</td>
+						<td class="text-center">{{ schedule.end_time|date:'h' }}:{{ schedule.end_time|date:'i' }} {{ schedule.end_time|date:'A' }}</td>
+						<td class="text-center">{{schedule.fee}} </td>
+						<td class="text-center">{{schedule.booked_slot}} / {{schedule.total_available_slot}} &emsp; <i class="fas fa-info-circle" aria-hidden="true"></i></td>
+						<td class="text-center">
+							{% if user.user_type == 'DA' and user.docasstprofile.doctor == doc %}
+							<a href="{% url 'get-appointment' %}?schedule={{schedule.id}}"><button class="btn_small book_now_small"> View </button></a>
+							<a href="/update_schedule/{{schedule.id}}"><button class="btn_edit btn_small book_now_small" title="Edit"><i class="fas fa-pencil-alt"></i></button></a>
+							{% elif doc.apprived and doc.user.id != user.id %}
+							<a href="{% url 'get-appointment' %}?schedule={{schedule.id}}"><button class="btn_green btn_small book_now_small"> Book Slot </button></a>
+							{% elif doc.user.id == user.id %}
+							<a href="{% url 'get-appointment' %}?schedule={{schedule.id}}"><button class="btn_small book_now_small"> View </button></a>
+							<a href="/update_schedule/{{schedule.id}}"><button class="btn_edit btn_small book_now_small" title="Edit"><i class="fas fa-pencil-alt"></i></button></a>
+							{% endif %}
+						</td>
+					</tr>
+				{% endif %}
+				{% endfor %}
+			</table>
+		{% endif %}
+	</div>
+{% endblock %}
+

@@ -1,0 +1,122 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+	<div class="container">
+		{% if error %}
+			<div class="alert alert-{{error.tag}}" role="alert">{{error.message}} </div>
+		{% elif schedule.doctor.apprived == False %}
+			<div class="alert alert-danger" role="alert"> Doctor profile NOT approved. <br>Booking an appointment is disabled at this moment.  </div>
+		{% else %}
+			<h2>Get an Appointment</h2><br>
+			<h3>Doctor Details:</h3>
+			<table>
+				<tr>
+					<td width="200">
+						<div class="profile_image" style="background-image: url('{{ schedule.doctor.image.url }}')">&nbsp;</div>
+					</td>
+					<td style="vertical-align: top;">
+						<h4>
+							<a href="/doctor/{{schedule.doctor.id}}" target="_blank">
+								{{ schedule.doctor.user.first_name }} {{ schedule.doctor.user.last_name }}
+							</a>
+						</h4>
+						{{ schedule.doctor.field }}
+						<br><br>
+						<rating>{{ schedule.doctor.review_rating }}</rating> 
+						<br><span class="review_num_text">(Total {{ schedule.doctor.total_review }}
+						{% if schedule.doctor.total_review < 2 %}
+							 Review)
+						{% else %}
+							Reviews)
+						{% endif %}
+						</span>
+					</td>
+				</tr>
+			</table>
+			<br><br>
+			<h3>Appoint Details</h3>
+			<div class="row">
+				<div class="col-xs-3"><p>Date</p></div>
+				<div class="col-xs-9">
+					<p>{{ schedule.start_date|date:'d F, Y' }}</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-3"><p>Day</p></div>
+				<div class="col-xs-9">
+					<p>{{ schedule.start_date|date:'l' }}</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-3"><p>Start Time</p></div>
+				<div class="col-xs-9">
+					<p>{{schedule.start_time|date:'h' }}:{{ schedule.start_time|date:'i' }} {{ schedule.start_time|date:'A' }}
+					({{schedule.start_time|date:'H:i'}} hrs)</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-3"><p>End Time</p></div>
+				<div class="col-xs-9">
+					<p>{{schedule.end_time|date:'h' }}:{{ schedule.end_time|date:'i' }} {{ schedule.end_time|date:'A' }}
+					({{schedule.end_time|date:'H:i'}} hrs)</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-3"><p>Fee</p></div>
+				<div class="col-xs-9">
+					<p>{{ schedule.fee }} Tk</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-3"><p>Total Available Slots</p></div>
+				<div class="col-xs-9">
+					<p>{{ schedule.total_available_slot }}</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-3"><p>Already Booked</p></div>
+				<div class="col-xs-9">
+					<p>{{ schedule.booked_slot }}</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-3"><p>Chember</p></div>
+				<div class="col-xs-9">
+					<p><a href="/hospital/{{schedule.chember.id}}">{{ schedule.chember.name }}</a></p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-3"><p>Location</p></div>
+				<div class="col-xs-9">
+					<p>
+						{{ schedule.chember.address }}, {{schedule.chember.city}}, {{schedule.chember.city}}
+						<br>
+						<!-- <span class="review_num_text">In the future we can have a modal for chember info (with map)</span> -->
+					</p>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<br>
+				<div class="col-xs-12" style="text-align: center;">
+					{% if schedule.doctor.user.id == user.id %}
+					<a href="/update_schedule/{{schedule.id}}"><button class="btn_big"> Edit </button></a>
+					{% else %}
+					<a href="{% url 'confirm_appointment' %}?schedule={{schedule.id}}"><button class="btn_big"> Book Slot </button></a>
+					{% endif %}
+				</div>
+				<br>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}
+

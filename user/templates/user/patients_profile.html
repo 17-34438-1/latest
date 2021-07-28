@@ -1,0 +1,123 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+			<div class="profile_image" style="background-image: url('{{photo}}');">&nbsp;</div>
+		</div>
+		<div class="col-lg-8 col-md-7 col-sm-6 col-xs-6">
+			<h2>{{patient.first_name}} {{patient.last_name}}</h2>
+			DOB : {{patient.dob|date:'d F, Y'}}
+		</div>
+		<div class="col-lg-2 col-md-3 col-sm-3 col-xs-3">
+			<br><br>
+			{% if me %}
+			<a href="{% url 'edit-profile' %}">
+				<button class="btn_small btn_green">Edit Profile</button>
+			</a>
+			{% endif %}
+		</div>
+	</div>
+
+	<br><br>
+
+	<div class="row">
+		<div class="col-xs-4">
+			<div class="row">
+				<div class="col-xs-5">Height</div>
+				<div class="col-xs-7">
+					{% if patient.patientprofile.height_cm %}
+						<input type="hidden" id="height_cm" value="{{patient.patientprofile.height_cm}}">
+						<span id="feet">-</span>ft <span id="inch">-</span>in ({{patient.patientprofile.height_cm}} cm)
+					{% else %}
+						-
+					{% endif %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-5">Weight</div>
+				<div class="col-xs-7">
+					{% if patient.patientprofile.weight_kg %}
+						{{patient.patientprofile.weight_kg}} kg
+					{% else %}
+						-
+					{% endif %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-5">Blood Group</div>
+				<div class="col-xs-7">{{patient.blood_group}}</div>
+			</div>
+		</div>
+
+		<div class="col-xs-4">
+			<div class="row">
+				<div class="col-xs-5">Gender</div>
+				<div class="col-xs-7">
+					{% if patient.gender == '-' %}
+						-
+					{% elif patient.gender == 'M' %}
+						Male
+					{% else %}
+						Female
+					{% endif %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-5">Blood Pressure</div>
+				<div class="col-xs-7">
+					{% if patient.patientprofile.bloodPressure == None %}
+						-
+					{% elif patient.patientprofile.bloodPressure %}
+						Yes
+					{% else %}
+						No
+					{% endif %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-5">Diabetes</div>
+				<div class="col-xs-7">
+					{% if patient.patientprofile.diabetes == None %}
+						-
+					{% elif patient.patientprofile.diabetes %}
+						Yes
+					{% else %}
+						No
+					{% endif %}
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-4 text-right">
+			<span class="review_num_text">Last updated on <span title="{{last_updated|date:'d F Y , h:m A'}} (UTC+6:00)">{{last_updated|date:'d F, Y'}}</span> </span>
+		</div>
+	</div>
+
+	{% if me %}
+	<div>
+		<br><br><br>
+		<p><a href="{% url 'appointment-history' %}">View Appointment History</a></p>
+	</div>
+	{% endif %}
+</div>
+
+
+<script type="text/javascript">
+	document.addEventListener('DOMContentLoaded', function(event){
+		try {
+			total_inch = Math.ceil(height_cm.value * 0.393701);
+			math_feet = Math.floor(total_inch/12)
+			math_inch  = total_inch - (math_feet*12)
+			
+			feet.innerHTML = math_feet
+			inch.innerHTML = math_inch
+		}
+		catch(e) {
+			//not displaying any error message
+		}
+	});
+</script>
+{% endblock content %}

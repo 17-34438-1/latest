@@ -1,0 +1,41 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container">
+	<h3>Managers</h3>
+	Hospital : <a href="/hospital/{{hospital.id}}" target="_blank">{{ hospital.name }}</a>
+
+	<br><br>
+
+	<br><br>
+
+	<div class="row text-center">
+		{% for manager in managers %}
+			<div class="col-xs-3 text-center">
+			  <a href="/doctor/{{manager.id}}">
+				<div class="profile_image" style="background-image: url('{{ manager.image.url }}'); position: relative; left: 25%;"> &nbsp; </div>
+				<h5>{{manager.user.first_name}} {{manager.user.last_name}}</h5>
+			</div>
+		  </a>
+		{% endfor %}
+	</div>
+
+	<br><br>
+
+	<br><hr><br>
+	<h4>Add a new Manager:</h4>
+	<input name="search" id="doc_searchBox" class="input_full less_hight_input_full_width" placeholder="Enter Doctor's Name or ID" onkeypress="searchDocAjax({{hospital.id}} , 1); drawFooter();">
+	<i class="fas fa-search input_search_btn" onclick="searchDocAjax(); drawFooter();"></i>
+
+	<div id="doctor_search_result"></div>
+
+
+
+	<br><hr><br>
+
+	<span class="review_num_text">*To remove a manager, please contact an administrator.</span>
+	<br><br><br><br>
+
+</div>
+
+{% endblock %}

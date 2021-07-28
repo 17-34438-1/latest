@@ -1,0 +1,91 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container">
+	<h3>Appointment Details</h3>
+	<br>
+	<div class="row">
+		<div class="col-xs-3">Patient</div>
+		<div class="col-xs-9"><a href="#">{{appointment.patient.fullname}}</a></div>
+	</div>
+	<div class="row">
+		<div class="col-xs-3">Ref. By</div>
+		<div class="col-xs-9">{{appointment.ref_by}}</div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="col-xs-3">Schedule Date</div>
+		<div class="col-xs-9">{{appointment.schedule.start_date|date:'l, d F o'}}</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-3">Schedule Time</div>
+		<div class="col-xs-9">{{appointment.schedule.start_time|date:'h:i A'}} - {{appointment.schedule.end_time|date:'h:i A'}}</div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="col-xs-3">Issue</div>
+		<div class="col-xs-9">{{appointment.issue_title}}</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-3">Description</div>
+		<div class="col-xs-9"><p>{{appointment.issue_desc}}</p></div>
+	</div>
+
+	<br><br>
+	<div class="row">
+		<div class="col-xs-6">
+			<div class="partition">
+				<h4>Option 1: Reschedule</h4>
+
+				<br><br>
+
+				Select New Schedule: <br>
+				<span class="review_num_text">(Datee | Time | Hospital | Remaining Seat)</span>
+				<br>
+				<div class="text-center">
+				  <form method="POST">
+					{% csrf_token %}
+					<input type="hidden" name="action" value="reschedule">
+					<input type="hidden" name="id" value="{{appointment.id}}">
+
+					<select name="new_schedule" style="width: 90%;">
+						{% for schedule in schedule_list %}
+						<option value="{{schedule.id}}">{{schedule.start_date|date:'D, d M y'}} &ensp; | 
+							&ensp; {{schedule.start_time|date:'h:i A'}} - {{schedule.end_time|date:'h:i A'}} &ensp; |
+							&ensp; {{schedule.chember}} &ensp; |
+							&ensp; {{schedule.remaining_seat}}
+						</option>
+						{% endfor %}
+					</select>
+
+					<br>
+
+					<button>Reschedule Appointment</button>
+				  </form>
+				  <br>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-6">
+			<div class="partition">
+				<h4>Option 2: Cancel Appointment</h4>
+
+				<br><br>
+
+				<form method="POST" onsubmit="return confirm('Are you sure you want to cancel this appointment request?');">
+					{% csrf_token %}
+					<input type="hidden" name="action" value="cancel">
+					<input type="hidden" name="id" value="{{appointment.id}}">
+					<br><br><br>
+					<div class="text-center">
+						<button class="btn_red" onclick="">Cancel Appointment</button>
+					</div>
+					<br><br><br>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</div>
+{% endblock %}

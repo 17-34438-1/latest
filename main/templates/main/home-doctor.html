@@ -1,0 +1,102 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+	<div class="container-fluid body_95">
+		<h3>Search </h3>
+		<input type="text" class="input_full search_full">
+		<i class="fas fa-search input_search_btn"></i>
+
+		<br><br>
+
+
+		<div class="row">
+			<div class="col-sm-2 user_sidebar">
+				<a href="{% url 'my_schedule' %}">
+				<div class="user_sidebar_option option_green">
+					<img src="{% static 'main/icons/icon_calendar.svg' %}" class="option_icon">
+					<br> <span class="option_title">My Schedule</span>
+				</div>
+				</a>
+
+				<span class="vanish_when_small">&nbsp;</span>
+
+				<a href="{% url 'assistant-activity' %}">
+				<div class="user_sidebar_option option_skyblue">
+					<img src="{% static 'main/icons/icon_assistant.svg' %}" class="option_icon">
+					{% if new_activity %}
+					<b class="new_asst_activity" title="New Activity">•</b>				
+					{% endif %}
+					<br> <span class="option_title">Assistant</span>
+				</div>
+				</a>
+
+				<br><br>
+
+				<a href="{% url 'my_hospitals' %}">
+				<div class="user_sidebar_option option_lavender">
+					<img src="{% static 'main/icons/icon_hospital.svg' %}" class="option_icon">
+					<br> <span class="option_title">Hospitals</span>
+				</div>
+				</a>
+
+				<span class="vanish_when_small">&nbsp;</span>
+
+				<a href="#">
+				<div class="user_sidebar_option option_orange">
+					<img src="{% static 'main/icons/icon_patient.svg' %}" class="option_icon">
+					<br> <span class="option_title">Patients</span>
+				</div>
+				</a>
+				
+				<br>
+			</div>
+
+			<div class="col-sm-10">
+			<table border="0">
+			<tr>
+				<td class="table_title" colspan="4">My Appointments Today</td>
+			</tr>
+			<tr>
+				<th width="40%"> Patient </th>
+				<th> Issue </th>
+				<th class="text-center"> Time </th>
+				<!-- <th> Action </th> -->
+			</tr>
+
+			{% for appointment in appointment_today %}
+			<tr>
+				<td><a href="/patient/?id={{appointment.patient.id}}">
+					<!-- <div class="profile_image" style="background-image: url(' CODE HERE ');">&nbsp;</div> -->
+					{{appointment.patient.fullname}}
+				</a></td>
+				<td>{{appointment.issue_title}}</td>
+				<td class="text-center">{{appointment.schedule.start_time|date:"H:i"}} - {{appointment.schedule.end_time|date:"H:i"}}</td>
+				<!-- <td>• • •</td> -->
+			</tr>
+			{% empty %}
+			<tr>
+				<td class="text-center review_num_text" colspan="3" style="height: 150px;">
+					No appointment today
+				</td>
+			</tr>
+			<tr>
+				<td class="text-center review_num_text" colspan="3">
+					<a href="{% url 'all_appointments' %}">View All Appointments</a>
+				</td>
+			</tr>
+			<tr>
+				<td class="text-center review_num_text" colspan="3">
+					<a href="{% url 'manage_appointment' %}">Manage Appointments</a>
+				</td>
+			</tr>
+			{% endfor %}
+			
+			
+
+		</table>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}

@@ -1,0 +1,90 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container">
+	<form id="search_form">
+		<div class="container-fluid">
+			<h4>Search</h4>
+			<input type="text" class="input_full less_hight_input_full_width" name="keyword" value="{{search_text}}">
+			<i class="fas fa-search input_search_btn" onclick="search_form.submit()"></i>
+		</div>
+		<div class="row">
+			<div class="col-xs-2"></div>
+			<div class="col-xs-2">
+				<input type="checkbox" {% if doc_checked %}checked{% endif %} id="checkbox_doc" name="checkbox_doc">
+				<span onclick="checkbox_doc.checked^=1" class="checkbox_label">Doctor</span> 
+			</div>
+			<div class="col-xs-2">
+				<input type="checkbox" {% if hospital_checked %}checked{% endif %} id="checkbox_Hospital" name="checkbox_Hospital">
+				<span onclick="checkbox_Hospital.checked^=1" class="checkbox_label">Hospital</span> 
+			</div>
+			<div class="col-xs-2">
+				<input type="checkbox" {% if doc_checked %}checked{% endif %} id="checkbox_Disease" name="checkbox_Disease">
+				<span onclick="checkbox_Disease.checked^=1" class="checkbox_label">Disease</span> 
+			</div>
+			<div class="col-xs-2">
+				<input type="checkbox" {% if hospital_checked %}checked{% endif %} id="checkbox_Location" name="checkbox_Location">
+				<span onclick="checkbox_Location.checked^=1" class="checkbox_label">Location</span> 
+			</div>
+			<div class="col-xs-2"></div>
+		</div>
+	</form>
+
+	<br><hr><br>
+
+	{% if doc_checked %}
+	<h3>Doctors</h3>
+	<table border="0">
+		<tr>
+			<th width="35%"> Doctor </th>
+			<th> Field </th>
+			<th> Fees </th>
+			<th class="text-center"> Rating </th>
+		</tr>
+		{% for doc in doctors %}
+		<tr>
+			<td>
+				<a href="{% url 'doctor-details' doc.id %}">
+					<img class="profile_image small" style="background-image: url('{{doc.image.url}}');">
+					{{doc.user.first_name}} {{doc.user.last_name}}
+				</a>
+			</td>
+			<td>{{doc.field}}</td>
+			<td>{{doc.approx_fee_range_low}} - {{doc.approx_fee_range_high}}</td>
+			<td class="text-center"><rating>{{doc.review_rating}}</rating></td>
+		</tr>
+		{% empty %}
+		<tr>
+			<td colspan="4" class="review_num_text text-center">No Result Found</td>
+		</tr>
+		{% endfor %}
+	</table>
+	{% endif %}
+
+	<br> <br>
+	{% if hospital_checked %}
+	<h3>Hospitals</h3>
+	<div class="row">
+	{% for hospital in hospitals %}
+		<div class="col-md-6" style="margin-bottom: 25px;">
+			<div class="cover_photo" style="background-image: url('{{hospital.image.url}}');">
+				<div class="cover_text">
+				  <div style="position: absolute; bottom: 0px; width: 100%;">
+					<div class="row">
+						<div class="col-xs-12">
+						  <a href="/hospital/{{ hospital.id }}" target="_blank" style="font-size: 2em; color: white;">{{hospital.name}}</a> <br>
+						  {{hospital.address}}, {{hospital.city}} <br>
+						  {{hospital.district}}
+						</div>
+					</div>
+				  </div>
+				</div>
+			</div>
+		</div>
+	{% empty %}
+	<span class="review_num_text">&emsp; &emsp; No hospital found</span>
+	{% endfor %}
+	</div>	
+	{% endif %}
+</div>
+{% endblock %}

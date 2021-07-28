@@ -1,0 +1,59 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+	<form>
+	  <div class="text-center">
+		<input type="search" name="search" class="input_full less_hight_input_full_width" placeholder="Search Doctors" value="{{search}}">
+		<i class="fas fa-search input_search_btn" onclick="search_form.submit()"></i>
+	  </div>
+	</form>
+	
+	<h3 class="text-center">Top Doctors</h3>
+	<table border="0">
+		<tr>
+			<th width="35%"> Doctor </th>
+			<th> Field </th>
+			<!-- <th> Main Chember </th> -->
+			<th> Fees </th>
+			<th class="text-center"> Rating </th>
+		</tr>
+		{% if search %}
+			{% for doc in search_result %}
+			{% if doc.apprived %}
+			<tr>
+				<td>
+					<a href="{% url 'doctor-details' doc.id %}">
+					<img class="profile_image small" style="background-image: url('{{doc.image.url}}');">
+					{{doc.user.first_name}} {{doc.user.last_name}}
+					</a>
+				</td>
+				<td>{{doc.field}}</td>
+				<!-- <td>{{doc.main_chember}}</td> -->
+				<td>{{doc.approx_fee_range_low}} - {{doc.approx_fee_range_high}}</td>
+				<td class="text-center"><rating>{{doc.review_rating}}</rating></td>
+			</tr>
+			{% endif %}
+			{% endfor %}
+		{% else %}
+			{% for doc in doc_list %}
+			{% if doc.apprived %}
+			<tr>
+				<td>
+					<a href="{% url 'doctor-details' doc.id %}">
+					<img class="profile_image small" style="background-image: url('{{doc.image.url}}');">
+					{{doc.user.first_name}} {{doc.user.last_name}}
+					</a>
+				</td>
+				<td>{{doc.field}}</td>
+				<!-- <td>{{doc.main_chember}}</td> -->
+				<td>{{doc.approx_fee_range_low}} - {{doc.approx_fee_range_high}}</td>
+				<td class="text-center"><rating>{{doc.review_rating}}</rating></td>
+			</tr>
+			{% endif %}
+			{% endfor %}
+		{% endif %}
+	</table>
+</div>
+{% endblock content %}

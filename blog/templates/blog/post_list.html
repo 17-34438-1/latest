@@ -1,0 +1,55 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+	<!-- create post option if doctor -->
+	{% if doctor %}
+	<div class="text-right">
+		<a href="{% url 'create_blog_post' %}"><button class="btn_small">Create New Post</button></a>
+		&emsp;
+	</div>
+	<br><br>
+	{% endif %}
+
+
+	{% for post in object_list %}
+	<div class="blog_post_home row">
+		<a href="/blog_post/{{post.id}}">
+		<div class="col-xs-3">
+			<img  class="blog_home_post_image" 
+				{% if post.featured_image %}
+				style="background-image: url('{{post.featured_image.url}}');"
+				{% else %}
+				style="background-image: url('/media/no_image.jpg');"
+				{% endif %}
+			>
+		</div>
+		</a>
+
+		<div class="col-xs-9">
+			<h3><a href="/blog_post/{{post.id}}">{{post.title}}</a></h3>
+			<h4>{{post.subtitle}}</h4>
+
+			<br>
+			<p>{{post.description|truncatewords:50}} <a href="/blog_post/{{post.id}}">(Read More)</a></p>
+
+			<br>
+			<div class="row" style="font-size: 0.8em;">
+				<div class="col-xs-6">By <a href="/doctor/{{post.author_id}}" target="_blank">{{post.author.user.first_name}} {{post.author.user.last_name}}</a></div>
+				<div class="col-xs-6 text-right review_num_text">
+					Posted on: <abbr title="{{post.date_created}}">{{post.date_created|date:'d M, Y'}}</abbr> 
+					<br>
+					Last Edit: <abbr title="{{post.last_edit}}">{{post.last_edit|date:'d M, Y'}}</abbr> 
+				</div>
+			</div>
+		</div>
+	</div>
+	{% empty %}
+	<table>
+		<tr> <td class="text-center">No Post Found</td> </tr>
+		<tr> <td class="text-center"><a href="{% url 'blog' %}">View Blog Home</a></td> </tr>
+	</table>
+	{% endfor %}
+</div>	
+{% endblock content %}

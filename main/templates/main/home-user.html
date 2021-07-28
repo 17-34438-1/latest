@@ -1,0 +1,92 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+	<div class="container-fluid body_95">
+		<h3>Search</h3>
+		<input type="text" class="input_full search_full">
+		<i class="fas fa-search input_search_btn"></i>
+
+		<br><br>
+
+
+		<div class="row">
+			<div class="col-sm-2 user_sidebar">
+				<a href="#">
+				<div class="user_sidebar_option option_orange">
+					<img src="{% static 'main/icons/icon_doctor.svg' %}" class="option_icon">
+					<br> <span class="option_title">Doctors</span>
+				</div>
+				</a>
+
+				<span class="vanish_when_small">&nbsp;</span>
+
+				<a href="#">
+				<div class="user_sidebar_option option_lavender">
+					<img src="{% static 'main/icons/icon_hospital.svg' %}" class="option_icon">
+					<br> <span class="option_title">Hospitals</span>
+				</div>
+				</a>
+
+				<br><br>
+
+				<a href="#">
+				<div class="user_sidebar_option option_skyblue">
+					<img src="{% static 'main/icons/icon_location.svg' %}" class="option_icon">
+					<br> <span class="option_title">Locations</span>
+				</div>
+				</a>
+
+				<span class="vanish_when_small">&nbsp;</span>
+
+				<a href="{% url 'appointment-history' %}">
+				<div class="user_sidebar_option option_green">
+					<img src="{% static 'main/icons/icon_calendar.svg' %}" class="option_icon">
+					<br> <span class="option_title">My Appointments</span>
+				</div>
+				</a>
+				<br>
+			</div>
+
+			<div class="col-sm-10">
+			<h3>Upcoming Meetings</h3>
+			<table>
+				<tr>
+					<th>Doctor</th>
+					<th>Date</th>
+					<th>Time</th>
+					<th>Location</th>
+					<th></th>
+				</tr>
+				{% if num_of_appointments == 0 %}
+				<tr>
+					<td colspan="5" class="review_num_text text-center"><i>You have not booked any appointment yet</i></td>
+				</tr>
+				{% endif %}
+				{% for appointment in object %} <!-- "a" for Appointment -->
+				<tr>
+					<td>
+						<a href="{% url 'doctor-details' appointment.schedule.doctor.id %}">
+						<img src="{{appointment.schedule.doctor.image.url}}" class="profile_image small">
+						{{appointment.schedule.doctor.user.first_name}} {{appointment.schedule.doctor.user.last_name}}
+						</a>
+					</td>
+					<td>{{appointment.schedule.start_date|date:'d F, Y'}}</td>
+					<td>{{appointment.schedule.start_time|date:'h' }}:{{appointment.schedule.start_time|date:'i' }} {{ appointment.schedule.start_time|date:'A' }}</td>
+					<td>{{appointment.schedule.chember.city}}, {{appointment.schedule.chember.district}}</td>
+					<td><a href="/appointment/{{appointment.id}}">View Details</a></td>
+				</tr>
+				{% empty %}
+				<tr>
+					<td colspan="5" class="text-center review_num_text" style="height: 150px">No meeting today</td>
+				</tr>
+				{% endfor %}
+				<tr>
+					<td colspan="5" class="text-center"><a href="/appointment_history">View Full List</a></td>
+				</tr>
+			</table>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}

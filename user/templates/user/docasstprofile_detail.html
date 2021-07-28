@@ -1,0 +1,35 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+			<br>
+			<div class="profile_image" style="background-image: url('{{ object.image.url }}');">&nbsp;</div>
+		</div>
+		<div class="col-lg-8 col-md-7 col-sm-6 col-xs-6">
+			<h2>{{object.user.first_name}} {{object.user.last_name}}</h2>
+			<span class="review_num_text">Doctor's Assistant</span><br><br>
+			<br>
+			{% if object.doctor %}
+				Doctor: 
+				<a href="/doctor/{{object.doctor.id}}">
+					{{ object.doctor.user.first_name }} {{ object.doctor.user.last_name }}
+				</a>
+			{% else %}
+				<span class="review_num_text"><i>Not approved under any doctor currently</i></span>
+			{% endif %}
+			<br>
+		</div>
+		<div class="col-lg-2 col-md-3 col-sm-3 col-xs-3">
+			<br><br>
+			{% if object.user.id == user.id %}
+			<a href="{% url 'edit-profile' %}"><button class="btn_small btn_green">Edit Profile</button></a>
+			<a href="{% url 'schedule' %}?doc={{user.docasstprofile.doctor.id}}"><button class="btn_small btn_green">View/Edit Schedule</button></a>
+			{% elif user.user_type == 'D' and object.doctor == None %}
+			<br><a href="{% url 'add-assistant' %}?assistant={{object.id}}"><button class="btn_small btn_green">Add as Assistant</button></a>
+			{% endif %}
+		</div>
+	</div>
+</div>	
+{% endblock content %}

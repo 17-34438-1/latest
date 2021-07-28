@@ -1,0 +1,39 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container">
+	<h4>Search Assistant</h4>
+	<div class="row text-center">
+		<form id="search_form">
+			<input name="search" class="input_full less_hight_input_full_width" placeholder="First Name, Last Name or ID">
+			<i class="fas fa-search input_search_btn" onclick="search_form.submit()"></i>
+		</form>
+	</div>
+
+	{% if num_of_result == 0 %}
+	<div class="alert alert-warning">
+		No match found		
+	</div>
+	{% endif %}
+
+	{% if search_result %}
+	<table>
+		{% for asst in search_result %}
+		<tr>
+			<td>
+				<a href="/docasst/{{asst.id}}">
+					<img src="{{asst.image.url}}" class="profile_image small">
+					{{asst.user.first_name}} {{asst.user.last_name}}
+				</a>
+			</td>
+			<td style="width: 200px;" class="text-right">
+				<a href="{% url 'add-assistant' %}?assistant={{asst.id}}">
+					<button class="btn_small">Add</button>
+				</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+	{% endif %}
+</div>
+{% endblock content %}

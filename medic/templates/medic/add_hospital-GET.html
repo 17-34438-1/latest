@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container">
+	<form>
+	  <div class="text-center">
+		<input type="search" name="search" class="input_full less_hight_input_full_width" placeholder="Search Hospital" value="{{search}}">
+		<i class="fas fa-search input_search_btn" onclick="search_form.submit()"></i>
+	  </div>
+	</form>
+
+	{% if search %}
+	<table>
+		<tr>
+			<th>Hospital Name</th>
+			<th width="84">&nbsp;</th>
+		</tr>
+		{% for hospital in search_result %}
+		<tr>
+		  <form method="POST">
+		  	{% csrf_token %}
+		  	<input type="hidden" name="hospital" value="{{hospital.id}}">
+			<td><a href="/hospital/{{hospital.id}}" target="_blank">{{hospital.name}}</a></td>
+			<td><button class="btn_small" style="width: 64px">Add</button></td>
+		  </form>
+		</tr>
+		{% endfor %}
+	</table>
+	{% endif %}
+</div>
+{% endblock %}

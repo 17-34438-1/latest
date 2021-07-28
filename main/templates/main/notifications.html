@@ -1,0 +1,42 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+	<h2>Notifications</h2>
+	<img src="{% static 'main/ajax-loader.gif' %}" id="ajax_loader_image" style="visibility: hidden;">
+	<br>
+	<table>
+		{% for notification in notifications %}
+		  <tr onclick="mark_as_read( {{notification.id}} )" style="cursor: pointer;">
+			<input type="hidden" id="{{notification.id}}" value="{{notification.link}}">
+			<td>
+				{% if not notification.seen %}
+				<span class="new_notification">•</span>
+				{% endif %}
+				{{notification.description}}
+			</td>
+			<td class="text-right" title="{{notification.date_created}}">{{notification.date_created|date:"d M"}}</td>
+		  </tr>
+		{% empty %}
+		<td class="review_num_text text-center"> No new Notification </td>
+		{% endfor %}
+	</table>
+</div>
+
+<script type="text/javascript">
+	function mark_as_read(id) {
+		document.getElementById('ajax_loader_image').style.visibility = '';
+
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				link = document.getElementById(id).value;
+				window.open(link,'_self');
+			}
+		};
+		xhttp.open("GET", "/mark_notification_as_read/?id="+id, true);
+		xhttp.send();
+	}
+</script>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container">
+	{% if asst %}
+	<h3>Confirmation</h3>
+	<p>Are you sure that you want to add this person as your assistant?<br><br></p>
+
+	<hr><br>
+
+	<a href="/docasst/{{asst.id}}">
+		<div class="row">
+			<div class="col-xs-2">
+				<div class="profile_image" style="background-image: url('{{asst.image.url}}');">&nbsp;</div>
+			</div>
+			<div class="col-xs-10">
+				<h2>{{asst.user.first_name}} {{asst.user.last_name}}</h2>
+				<p class="review_num_text">ID # {{ asst.id }} </p>
+			</div>
+		</div>
+	</a>
+
+	<hr><br>
+
+		{% if asst.doctor == user.doctorprofile %}
+		<div class="alert alert-success">Already added as your assistant</div>
+		{% elif asst.doctor %}
+		<div class="alert alert-warning">This person can not be added as assistant. Already added by another doctor.</div>
+		{% else %}
+		<div class="row text-center">
+			<form method="POST" id="add_asst_form">
+				{% csrf_token %}
+				<input type="hidden" name="asst_id" value="{{asst.id}}">
+				<button type="submit" form="add_asst_form" class="btn_green">Yes, Add as Assistant</button>
+			</form>
+			<button onclick="window.history.back()">No. I don't want to add</button>
+		</div>
+		{% endif %}
+	{% endif %}
+</div>
+{% endblock content %}

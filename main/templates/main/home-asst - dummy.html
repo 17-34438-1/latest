@@ -1,0 +1,201 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-xs-4 text-center">
+			<a href="#">
+				<div class="user_sidebar_option option_orange">
+					<img src="{% static 'main/icons/icon_patient.svg' %}" class="option_icon">
+					<br> <span class="option_title">Appointment Request</span>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-xs-4 text-center">
+			<a href="#">
+				<div class="user_sidebar_option option_skyblue">
+					<img src="{% static 'main/icons/icon_doctor.svg' %}" class="option_icon">
+					<br> <span class="option_title">Doctor</span>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-xs-4 text-center">
+			<a href="/my_schedule/">
+				<div class="user_sidebar_option option_green">
+					<img src="{% static 'main/icons/icon_calendar.svg' %}" class="option_icon">
+					<br> <span class="option_title">My Schedule</span>
+				</div>
+			</a>
+		</div>
+	</div>
+
+	<!-- Break here -->
+	<br><br>
+
+	<div class="row">
+		<div class="col-xs-6">
+			<h3>Current Schedule</h3>
+			<p>Here you can see the current schedule of the doctor. <br>
+			These are the schedules which are already confirmed. <br>
+			</p>
+			<br>
+
+			<h5> &emsp; <b>Mon, 25 Aug</b> (<span style="color:green">Today</span>) </h5>
+			<table>
+				<tr>
+					<th>Patient</th>
+					<th class="text-center" width="80">Schedule</th>
+				</tr>
+
+				<tr>
+					<td>Patient name n shit</td>
+					<td class="text-center">#69365</td>
+				</tr>
+
+				<tr>
+					<td>Patient name n shit</td>
+					<td class="text-center">#69365</td>
+				</tr>
+
+				<tr>
+					<td>Patient name n shit</td>
+					<td class="text-center">#69365</td>
+				</tr>
+			</table>
+
+			<br>
+
+			<h5> &emsp; <b>Mon, 25 Aug</b> </h5>
+			<table>
+				<tr>
+					<th>Patient</th>
+					<th class="text-center" width="80">Schedule</th>
+				</tr>
+
+				<tr>
+					<td>Patient name n shit</td>
+					<td class="text-center">#69365</td>
+				</tr>
+
+				<tr>
+					<td>Patient name n shit</td>
+					<td class="text-center">#69365</td>
+				</tr>
+
+				<tr>
+					<td>Patient name n shit</td>
+					<td class="text-center">#69365</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="col-xs-6">
+			<h3>Requests</h3>
+			<p>The following slots have been booked by the patients.<br>Check whether to confirm it.</p>
+			<br>
+			
+			<h5> &emsp; <b>Mon, 25 Aug</b></h5>
+			<table>
+				<tr>
+					<th>Patient</th>
+					<th class="text-center" width="80">Schedule</th>
+					<th class="text-center" width="150">Options</th>
+				</tr>
+
+				<tr>
+					<td>Patient name n shit</td>
+					<td class="text-center">#69365</td>
+					<td class="text-center" style="padding: 0px;">
+						<button class="btn_yes btn_green xs_button" title="Confirm"> <i class="fa fa-check"></i> </button> |
+						<button class="btn_no xs_button" title="No" title="Reject"> <i class="fas fa-times"></i> </button>
+					</td>
+				</tr>
+				<tr>
+					<td>Patient name n shit</td>
+					<td class="text-center">#69365</td>
+					<td class="text-center" style="padding: 0px;">
+						<button class="btn_yes btn_green xs_button" title="Confirm"> <i class="fa fa-check"></i> </button> |
+						<button class="btn_no xs_button" title="No" title="Reject"> <i class="fas fa-times"></i> </button>
+					</td>
+				</tr>
+				<tr>
+					<td>Patient name n shit</td>
+					<td class="text-center">#69365</td>
+					<td class="text-center" style="padding: 0px;">
+						<button class="btn_yes btn_green xs_button" title="Confirm"> <i class="fa fa-check"></i> </button> |
+						<button class="btn_no xs_button" title="No" title="Reject"> <i class="fas fa-times"></i> </button>
+					</td>
+				</tr>
+			</table>
+
+			<br>
+
+			<h5> &emsp; <b>Mon, 25 Aug</b></h5>
+			<table>
+				<tr>
+					<th>Patient</th>
+					<th class="text-center" width="80">Schedule</th>
+					<th class="text-center" width="150">Options</th>
+				</tr>
+
+				<tr>
+					<td>Patient name n shit</td>
+					<td class="text-center">#69365</td>
+					<td class="text-center" style="padding: 0px;">
+						<button class="btn_yes btn_green xs_button" title="Confirm"> <i class="fa fa-check"></i> </button> |
+						<button class="btn_no xs_button" title="No" title="Reject"> <i class="fas fa-times"></i> </button>
+					</td>
+				</tr>
+				<tr>
+					<td>Patient name n shit</td>
+					<td class="text-center">#69365</td>
+					<td class="text-center" style="padding: 0px;">
+						<button class="btn_yes btn_green xs_button" title="Confirm"> <i class="fa fa-check"></i> </button> |
+						<button class="btn_no xs_button" title="No" title="Reject"> <i class="fas fa-times"></i> </button>
+					</td>
+				</tr>
+				<tr>
+					<td>Patient name n shit</td>
+					<td class="text-center">#69365</td>
+					<td class="text-center" style="padding: 0px;">
+						<button class="btn_yes btn_green xs_button" title="Confirm"> <i class="fa fa-check"></i> </button> |
+						<button class="btn_no xs_button" title="No" title="Reject"> <i class="fas fa-times"></i> </button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<br> DEMO <br>
+	{% for appointment_req in awaiting_appointment_list.object_list %}
+		{{ appointment_req.schedule.start_date }} ( #{{ appointment_req.id }} )<br>
+	{% endfor %}
+
+	<br>
+	Page {{ awaiting_appointment_list.number }} of {{ awaiting_appointment_list.paginator.num_pages }}	
+
+	<nav aria-label="Page navigation example">
+		<ul class="pagination">
+			{% if awaiting_appointment_list.has_previous %}
+			<li class="page-item">
+				<a class="page-link" href="?page=1">&laquo; First</a>
+			</li>
+			<li class="page-item">
+				<a class="page-link" href="?page={{ awaiting_appointment_list.previous_page_number }}">Previous</a>
+			</li>
+			{% endif %}
+			{% if awaiting_appointment_list.has_next %}
+			<li class="page-item">
+				<a class="page-link" href="?page={{ awaiting_appointment_list.next_page_number }}">Next</a>
+			</li>
+			<li class="page-item">
+				<a class="page-link" href="?page={{ awaiting_appointment_list.paginator.num_pages }}">Last &raquo;</a>
+			</li>
+			{% endif %}
+		</ul>
+	</nav>
+</div>
+{% endblock %}

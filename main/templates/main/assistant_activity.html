@@ -1,0 +1,124 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container">
+	<a data-toggle="collapse" href="#chember_info">
+		<h4>My Assistants <i class="fa fa-caret-down"></i> </h4>
+	</a>
+	<div class="collapse in" id="chember_info">
+		<div class="card card-body">
+			{% if my_asst_list %}
+			<table>
+				{% for asst in my_asst_list %}
+				<tr>
+					<td>
+					  <a href="/docasst/{{asst.id}}" target="_blank">
+						<img src="{{asst.image.url}}" class="profile_image small">
+						{{asst.user.first_name}} {{asst.user.last_name}}
+					  </a>
+					</td>
+					<td style="width: 64px;">
+						<span style="cursor: pointer;" onclick="alert('Please contact an admin to remove assistant');">&times;</span>
+					</td>
+				</tr>
+				{% endfor %}
+				<tr>
+					<td colspan="2" class="text-center"><a href="{% url 'search-assistant' %}">Add another</a></td>
+				</tr>
+			</table>
+			<br>
+				
+			{% else %}
+			<div class="alert alert-warning">You have not added any assistant yet. <a href="{% url 'search-assistant' %}">Add now</a></div>
+			{% endif %}
+		</div>
+	</div>
+	
+
+	<br><hr><br>
+
+	<h4>Awaiting Assistant Requests</h4>
+	{% if req_list %}
+	<table>
+		<tr>
+			<th style="width: 40%;">From</th>
+			<th>On</th>
+			<th style="width: 256px;">Additional Info</th>
+			<th class="text-center" style="width: 200px;">Quick Action</th>
+		</tr>
+		{% for req in req_list %}
+			<tr>
+				<td>
+					<a href="/docasst/{{req.asst.id}}" target="_blank">{{req.asst.user.first_name}} {{req.asst.user.last_name}}</a>
+				</td>
+				<td><span title="{{req.create_date_time|date:'d F Y , h:i A'}}">{{req.create_date_time|date:'d M Y'}}</span></td>
+				<td>
+					<p class="less_text">
+						{{ req.additional_info|truncatewords:4 }}
+						<a href="#" data-toggle="modal" data-target="#info_{{req.id}}">(See full details)</a>
+
+						<div class="modal fade" id="info_{{req.id}}" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<a href="#" class="close" data-dismiss="modal">&times;</a>
+										<h3 class="modal-title">Request from {{req.asst.user.first_name}} {{req.asst.user.last_name}}</h3>
+									</div>
+									<div class="modal-body">
+										<p><b>From:</b> <a href="/docasst/{{req.asst.id}}" target="_blank">{{req.asst.user.first_name}} {{req.asst.user.last_name}}</a></p>
+										<p><b>Requested on:</b> {{req.create_date_time|date:'d F Y , h:i A'}}</p>
+										<p><b>Additional Info:</b> 
+											{% if req.additional_info %}
+												{{req.additional_info}}
+											{% else %}
+												<i class="review_num_text">No additional information provided</i>
+											{% endif %}
+										</p>
+										<br>
+										<p><b>Actions:</b></p>
+										<p class="text-center">
+											<form method="POST" action="{% url 'add-assistant' %}" style="float: left;">
+												{% csrf_token %}
+												<input type="hidden" name="asst_id" value="{{req.asst.id}}" >
+												<input type="hidden" name="req_id" value="{{req.id}}" >
+												<button class="btn_green">Accept</button>
+											</form>
+											<button onclick="deleteConfirmation('{{req.id}}')">Reject and Delete Req</button>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</p>
+				<td class="text-center">
+					<form method="POST" action="{% url 'add-assistant' %}" style="float: left;">
+						{% csrf_token %}
+						<input type="hidden" name="asst_id" value="{{req.asst.id}}" >
+						<input type="hidden" name="req_id" value="{{req.id}}" >
+						<button class="btn_yes btn_green" title="Yes"> <i class="fa fa-check"></i> </button>
+					</form>
+					<button onclick="deleteConfirmation('{{req.id}}')" class="btn_no" title="No"> <i class="fas fa-times"></i> </button>
+				</td>
+			</tr>
+		{% endfor %}
+	{% else %}
+		<span class="review_num_text">No assistant request pending.</span>
+	{% endif %}
+	</table>
+
+	<br><hr><br>
+
+	<h4>Profile Information Added by Assistants</h4>
+	<i>Will be implemented ITF</i>
+	<!-- <table></table> -->
+</div>
+
+<script type="text/javascript">
+	function deleteConfirmation(id){
+		if( confirm("Are you sure you want to delete this request?") ){
+			window.open('/delete_assistant_join_request/?req_id='+id,'_self')
+		}
+	}
+</script>
+
+{% endblock content %}

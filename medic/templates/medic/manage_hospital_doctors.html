@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container">
+	<h2>Manage Doctors of your Hospital</h2>
+	<h5>Hospital: <a href="/hospital/{{hospital.id}}" target="_blank">{{hospital.name}}</a> </h5>
+
+	<br><br>
+	<h4>Doctors of your hospital</h4>
+	<div class="row">
+		{% for doc in hospital.doctors.all %}
+			<div class="col-xs-3 col-md-2 text-center">
+			  <a href="/doctor/{{doc.id}}">
+				<div class="profile_image" style="background-image: url('{{ doc.image.url }}'); position: relative;left: 25%;">&nbsp;</div>
+				<h5>{{doc.user.first_name}} {{doc.user.last_name}}</h5>
+		  	  </a>
+		  	  <a href="{% url 'delete_hospital_doctor' %}?hospital={{hospital.id}}&doctor={{doc.id}}" style="font-size: 0.75em; ">(Remove)</a>
+			</div>
+		{% endfor %}
+	</div>
+
+	<br><hr><br>
+	<h4>Add a doctor:</h4>
+	<input name="search" id="doc_searchBox" class="input_full less_hight_input_full_width" placeholder="Enter Doctor's Name or ID" onkeypress="searchDocAjax( {{hospital.id}} ); drawFooter();">
+	<i class="fas fa-search input_search_btn" onclick="searchDocAjax( {{hospital.id}} ); drawFooter();"></i>
+
+	<div id="doctor_search_result"></div>
+</div>
+{% endblock %}

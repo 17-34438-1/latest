@@ -1,0 +1,36 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+	<BR><BR>
+	<div class="container-fluid body_50 text-center">
+		<br><br><br>
+		<h1 class="text-uppercase ">Find Doctor<br>Near Me</h1>
+		<br><br>
+		<form id="search_form">
+		<div class="container-fluid">
+			<input type="text" class="input_full search_full" name="keyword">
+			<i class="fas fa-search input_search_btn" onclick="search_form.submit()"></i>
+		</div>
+		<div class="row">
+			<div class="col-xs-2"></div>
+			<div class="col-xs-2">
+				<input type="checkbox" checked id="checkbox_doc" name="checkbox_doc">
+				<span onclick="checkbox_doc.checked^=1" class="checkbox_label">Doctor</span> 
+			</div>
+			<div class="col-xs-2">
+				<input type="checkbox" checked id="checkbox_Hospital" name="checkbox_Hospital">
+				<span onclick="checkbox_Hospital.checked^=1" class="checkbox_label">Hospital</span> 
+			</div>
+			<div class="col-xs-2">
+				<input type="checkbox" checked id="checkbox_Disease" name="checkbox_Disease">
+				<span onclick="checkbox_Disease.checked^=1" class="checkbox_label">Disease</span> 
+			</div>
+			<div class="col-xs-2">
+				<input type="checkbox" checked id="checkbox_Location" name="checkbox_Location">
+				<span onclick="checkbox_Location.checked^=1" class="checkbox_label">Location</span> 
+			</div>
+			<div class="col-xs-2"></div>
+		</div>
+		</form>
+	</div>
+{% endblock content %}

@@ -1,0 +1,183 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% if user_is_doc_asst %}
+<div class="container">
+	<div class="row">
+		<div class="col-xs-4 text-center">
+			<a href="#">
+				<div class="user_sidebar_option option_orange">
+					<img src="{% static 'main/icons/icon_patient.svg' %}" class="option_icon">
+					<br> <span class="option_title">Appointment Request</span>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-xs-4 text-center">
+			<a href="#">
+				<div class="user_sidebar_option option_skyblue">
+					<img src="{% static 'main/icons/icon_doctor.svg' %}" class="option_icon">
+					<br> <span class="option_title">Doctor</span>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-xs-4 text-center">
+			<a href="/my_schedule/">
+				<div class="user_sidebar_option option_green">
+					<img src="{% static 'main/icons/icon_calendar.svg' %}" class="option_icon">
+					<br> <span class="option_title">My Schedule</span>
+				</div>
+			</a>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+	<!-- Break here -->
+
+<div class="container-fluid body_95">
+	<br><br>
+
+	<div class="row">
+		<div class="col-md-6 col-xs-12">
+			<h3>Current Schedule</h3>
+			<p>Here you can see the current schedule of the doctor. <br>
+			These are the schedules which are already confirmed. <br>
+			</p>
+			<br>
+
+			<table>
+				<tr>
+					<th width="150">Patient</th>
+					<th>Issue</th>
+					<th width="100" class="text-center">Date</th>
+					<th width="100" class="text-center">Time</th>
+				</tr>
+
+				{% for a_r in confirmed_appointment_list.object_list %} <!-- a_r = appointment_request -->
+				<tr>
+					<td>{{a_r.patient.fullname}}</td>
+					<td>{{a_r.issue_title}}</td>
+					<td class="text-center">{{a_r.schedule.start_date|date:"d M"}}</td>
+					<td class="text-center">{{a_r.schedule.start_time|date:"H:i"}}</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+
+		<div class="col-md-6 col-xs-12">
+			<h3>Requests</h3>
+			<p>The following slots have been booked by the patients.<br>Check whether to confirm it.</p>
+			<br>
+			
+			<table>
+				<tr>
+					<th class="td_id">ID</th>
+					<th>Issue</th>
+					<th class="text-center" width="120">Date Time</th>
+					<th class="text-center" width="150">Options</th>
+				</tr>
+
+				{% for a_r in awaiting_appointment_list.object_list %} <!-- a_r = appointment_request -->
+				<tr>
+					<td class="td_id">
+						<a href="/appointment/{{a_r.id}}" target="_blank">#{{a_r.id}}</a>
+					</td>
+					<td><a href="#" data-toggle="modal" data-target="#info_{{a_r.id}}">{{a_r.issue_title}}</a> - <a href="/patient/?id={{a_r.patient.id}}"><span class="review_num_text">{{a_r.patient.fullname}}</a></span></td>
+					<td class="text-center">{{a_r.schedule.start_date|date:"d M"}} {{a_r.schedule.start_time|date:"f A"}}</td>
+					<td class="text-center" style="padding: 0px;">
+						<form method="POST" style="float: left;">
+							{% csrf_token %}
+							<input type="hidden" name="req_id" value="{{a_r.id}}">
+							<button class="btn_yes btn_green xs_button" title="Confirm"> <i class="fa fa-check"></i> </button>
+						</form>
+						|
+						<a href="http://localhost:8000/reject_appointment/?id={{a_r.id}}">
+							<button class="btn_no xs_button" title="No" title="Reject"> <i class="fas fa-times"></i> </button>
+						</a>
+					</td>
+				</tr>
+
+
+
+				<div class="modal fade" id="info_{{a_r.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								Appointment Details
+								<a class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</a>
+							</div>
+							<div class="modal-body">
+								<!-- <span style="color: red;">Will be implemented later using AJAX</span> -->
+								<p>ID: # {{a_r.id}}</p>
+								<br>
+								<p>Ref. By: {% if a_r.ref_by %} {{a_r.ref_by.user.fullname}} {% else %} <span class="review_num_text">None</span> {% endif %} </p>
+								<p>Patient: {{a_r.patient.fullname}} </p>
+								<br>
+								<p>Date: {{a_r.schedule.start_date}} </p>
+								<p>Start: {{a_r.schedule.start_time}}</p>
+								<p>End: {{a_r.schedule.end_time}}</p>
+								<br>
+								<p>Issue: {{a_r.issue_title}} </p>
+								<p>{{a_r.issue_desc}}</p>
+								<br>
+
+							</div>
+							<div class="modal-footer text-center">
+								<a href="/reject_appointment/?id={{a_r.id}}"><button class="btn_small"> Reject</button></a> | 
+								<a href="/reject_appointment/?id={{a_r.id}}"><button class="btn_small btn_green"> Suggest New Time </button></a>
+								<form method="POST" style="float: left;">
+									{% csrf_token %}
+									<input type="hidden" name="req_id" value="{{a_r.id}}">
+									<!-- <button class="btn_yes btn_green xs_button" title="Confirm"> <i class="fa fa-check"></i> </button> -->
+									<button class="btn_small btn_green"> Accept </button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</table>
+
+			<div class="text-center">
+				<br>
+				<span class="review_num_text">Page {{ awaiting_appointment_list.number }} of {{ awaiting_appointment_list.paginator.num_pages }}</span>
+
+				<nav aria-label="Page navigation example">
+					<ul class="pagination">
+						{% if awaiting_appointment_list.has_previous %}
+						<li class="page-item">
+							<a class="page-link" href="?page=1">&laquo; First</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link" href="?page={{ awaiting_appointment_list.previous_page_number }}">Previous</a>
+						</li>
+						{% endif %}
+						{% if awaiting_appointment_list.has_next %}
+						<li class="page-item">
+							<a class="page-link" href="?page={{ awaiting_appointment_list.next_page_number }}">Next</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link" href="?page={{ awaiting_appointment_list.paginator.num_pages }}">Last &raquo;</a>
+						</li>
+						{% endif %}
+					</ul>
+				</nav>
+				<form>Go to Page # <input class="square_input" type="number" name="page" min="0"></form>
+			</div>
+		</div>
+	</div>
+
+	<hr>
+	<br>
+
+	<div class="text-center">
+		<a href="{% url 'all_appointments' %}"><button class="btn_big" style="width: 50%;">VIEW ALL APPOINTMENTS</button></a>
+	</div>
+</div>
+{% endblock %}

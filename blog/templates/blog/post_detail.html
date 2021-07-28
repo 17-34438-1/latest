@@ -1,0 +1,27 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+	{% if object.featured_image %}
+	<div class="cover_photo" style="background-image: url('{{object.featured_image.url}}');"></div>
+	{% endif %}
+	<h2>{{object.title}}</h2>
+	<h4>{{object.subtitle}}</h4>
+	<br>
+	By <a href="/doctor/{{object.author.id}}" target="_blank">{{object.author.user.first_name}} {{object.author.user.last_name}}</a> <br>
+	on <span class="review_num_text"><abbr title="{{post.date_created}}">{{post.date_created|date:'d M, Y'}}</abbr> <br>
+		(Last updated on <abbr title="{{post.date_created}}">{{post.last_edit|date:'d M, Y'}}</abbr>)
+	</span>
+	<br>
+	<br><br>
+	<p>{{object.description}}</p>
+
+	{% if current_user_is_author %}
+	<div class="text-right">
+		<br><br><br>
+		<a href="/edit_post/{{object.id}}"><button class="btn_small">Edit Post</button></a>
+	</div>
+	{% endif %}
+</div>	
+{% endblock content %}

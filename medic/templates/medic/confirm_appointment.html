@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container">
+	<h3>Inform the Doctor about your Problem</h3>
+	<span class="review_num_text">Please let the doctor know a little about the problem you are having. For which you want to visit the doctor.</span> <br><br><br>
+	<form method="POST">
+		{% csrf_token %}
+		<input type="hidden" name="schedule" value="{{schedule_id}}">
+		<input type="text" name="title" placeholder="Enter your issue in about one sentance" class="input_bottom_outline full_width">
+		<textarea name="desc" placeholder="Shortly inform about the problems you are having. You can write small paragraphs if you want. It is better if you keep it short."></textarea>
+		<div class="text-right">
+			<button class="btn_small btn_green">Confirm</button>
+		</div>
+	</form>
+</div>
+{% endblock %}
